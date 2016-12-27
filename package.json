@@ -1,0 +1,26 @@
+{
+  "author": "Matthew Dahl (https://github.com/sandersky)",
+  "bugs": {
+    "url": "https://github.com/sandersky/eslint-plugin-ember-standard/issues"
+  },
+  "devDependencies": {
+    "eslint": "^3.0.1",
+    "mocha": "^2.2.5"
+  },
+  "keywords": [
+    "ember",
+    "eslint",
+    "eslintplugin"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "eslint-plugin-ember-standard",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sandersky/eslint-plugin-ember-standard"
+  },
+  "scripts": {
+    "test": "mocha tests/"
+  },
+  "version": "0.0.0"
+}
