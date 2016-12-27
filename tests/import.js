@@ -45,7 +45,9 @@ ruleTester.run('import', rule, {
   invalid: [
     invalidAlwaysTest('import Foo from "ember"', 'Foo'),
     invalidNeverTest('import Ember from "ember"'),
-    invalidNeverTest('import Foo from "ember"')
+    invalidNeverTest('import Foo from "foo"; import Ember from "ember"'),
+    invalidNeverTest('import Foo from "ember"'),
+    invalidNeverTest('import Foo from "foo"; import Foo from "ember"')
   ],
   valid: [
     validAlwaysTest('import Ember from "ember"')

@@ -41,6 +41,7 @@ ruleTester.run('logger', rule, {
   ],
   valid: [
     validAlwaysTest('console.info("Test")'),
+    validAlwaysTest('import Foo from "foo"; console.info("Test")'),
     validAlwaysTest('Ember.Logger.info("Test")'),
     validAlwaysTest('import Ember from "ember"; Ember.Logger.info("Test")'),
     validAlwaysTest('import Foo from "ember"; Foo.Logger.info("Test")'),
