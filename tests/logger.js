@@ -31,7 +31,7 @@ function validAlwaysTest (code) {
 
 const ruleTester = new RuleTester()
 
-ruleTester.run('destructure', rule, {
+ruleTester.run('logger', rule, {
   invalid: [
     invalidAlwaysTest('import Ember from "ember"; console.debug("Test")', 'debug'),
     invalidAlwaysTest('import Foo from "ember"; console.debug("Test")', 'debug'),

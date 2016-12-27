@@ -3,6 +3,11 @@ module.exports = {
     var isNever = Boolean(context.options.length > 0 && context.options[0] === 'never')
 
     return {
+      /**
+       * Determine if Ember is being imported when it shouldn't be or if it is
+       * being imported under a variable name other than "Ember"
+       * @param {ESLintNode} node - import declaration node
+       */
       ImportDeclaration: function (node) {
         if (node.source.value !== 'ember') {
           return
@@ -25,7 +30,6 @@ module.exports = {
       description: 'enforce import of Ember instead of using global',
       recommended: true
     },
-    fixable: 'code',
     schema: [
       {
         enum: [

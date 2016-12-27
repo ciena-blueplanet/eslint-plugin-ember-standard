@@ -46,7 +46,7 @@ function validAlwaysTest (code) {
 
 const ruleTester = new RuleTester()
 
-ruleTester.run('destructure', rule, {
+ruleTester.run('import', rule, {
   invalid: [
     invalidAlwaysTest('import Foo from "ember"', 'Foo'),
     invalidNeverTest('import Ember from "ember"'),

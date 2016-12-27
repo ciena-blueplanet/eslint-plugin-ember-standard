@@ -4,6 +4,12 @@ module.exports = {
     var isNever = Boolean(context.options.length > 0 && context.options[0] === 'never')
 
     return {
+      /**
+       * Determine if console is being used when it shouldn't be (when Ember is
+       * imported)
+       * @example `import Ember from 'ember'; console.info('Test')`
+       * @param {ESLintNode} node - call expression node
+       */
       CallExpression: function (node) {
         if (isEmberImported && node.callee.object.name === 'console') {
           var propertyName = node.callee.property.name
@@ -11,6 +17,11 @@ module.exports = {
         }
       },
 
+      /**
+       * Determine if Ember has been explicitly imported
+       * @example `import Ember from 'ember'`
+       * @param {ESLintNode} node - import declaration node
+       */
       ImportDeclaration: function (node) {
         if (node.source.value === 'ember') {
           isEmberImported = true
@@ -21,11 +32,10 @@ module.exports = {
   meta: {
     deprecated: false,
     docs: {
-      category: 'Stylistic Issues',
+      category: 'Best Practices',
       description: 'enforce usage of Ember.Logger over console',
       recommended: true
     },
-    fixable: 'code',
     schema: [
       {
         enum: [
