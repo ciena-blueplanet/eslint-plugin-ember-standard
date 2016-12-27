@@ -6,7 +6,9 @@ const parserOptions = {
   sourceType: 'module'
 }
 
-function invalidAlwaysTest (code, name, emberVar = 'Ember') {
+function invalidAlwaysTest (code, name, emberVar) {
+  emberVar = emberVar || 'Ember'
+
   return {
     code: code,
     errors: [
