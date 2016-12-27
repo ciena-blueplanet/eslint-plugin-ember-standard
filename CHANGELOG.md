@@ -1,3 +1,8 @@
+# 0.0.3
+
+* **Fixed** code coverage reporting on CI.
+
+
 # 0.0.2
 
 * **Added** new rule: `no-set-in-computed-property` for ensuring Ember set calls are not made within computed properties.
