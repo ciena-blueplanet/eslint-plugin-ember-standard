@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ "$EMBER_TRY_SCENARIO" != "default" ]
+if [ "$TRAVIS_NODE_VERSION" != "stable" ]
 then
-  echo "Skipping coverage publish for EMBER_TRY_SCENARIO ${EMBER_TRY_SCENARIO}"
+  echo "Skipping coverage publish for TRAVIS_NODE_VERSION ${TRAVIS_NODE_VERSION}"
   exit 0
 fi
 
