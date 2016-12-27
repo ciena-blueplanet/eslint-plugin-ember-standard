@@ -175,6 +175,16 @@ ruleTester.run('no-set-in-computed-property', rule, {
       '})',
       8
     ),
+    invalidAlwaysTest(
+      'const foo = "bar"\n' +
+      'export default Ember.Component.extend({\n' +
+      '  foo: Ember.computed("bar", function () {\n' +
+      '    this.set("baz", "spam")\n' +
+      '    return "test"\n' +
+      '  })\n' +
+      '})',
+      4
+    )
   ],
   valid: [
     validAlwaysTest(
