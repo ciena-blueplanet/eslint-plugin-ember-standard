@@ -2,6 +2,7 @@
 
 ###### Dependencies
 
+![Node][node-img]
 [![NPM][npm-img]][npm-url]
 
 ###### Health
@@ -34,6 +35,8 @@ npm install --save-dev eslint-plugin-ember-standard
 
 [cov-img]: https://img.shields.io/coveralls/ciena-blueplanet/eslint-plugin-ember-standard.svg "Coveralls Code Coverage"
 [cov-url]: https://coveralls.io/github/ciena-blueplanet/eslint-plugin-ember-standard
+
+[node-img]: https://img.shields.io/badge/node-4+-green.svg "Node Version"
 
 [npm-img]: https://img.shields.io/npm/v/eslint-plugin-ember-standard.svg "NPM Version"
 [npm-url]: https://www.npmjs.com/package/eslint-plugin-ember-standard
