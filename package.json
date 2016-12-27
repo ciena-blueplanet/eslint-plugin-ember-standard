@@ -5,7 +5,9 @@
   },
   "devDependencies": {
     "eslint": "^3.0.1",
-    "mocha": "^2.2.5"
+    "mocha": "^3.2.0",
+    "remark-cli": "^2.1.0",
+    "remark-lint": "^5.4.0"
   },
   "engines": {
     "node": ">= 5.0.0"
@@ -23,7 +25,9 @@
     "url": "https://github.com/ciena-blueplanet/eslint-plugin-ember-standard"
   },
   "scripts": {
-    "test": "mocha tests/"
+    "lint": "remark *.md documentation/**/*.md",
+    "test": "npm run lint && npm run utest",
+    "utest": "mocha tests/"
   },
   "version": "0.0.0"
 }
