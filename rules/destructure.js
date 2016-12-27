@@ -1,17 +1,24 @@
 module.exports = {
   create: function (context) {
-    const isNever = Boolean(context.options.length > 0 && context.options[0] === 'never')
+    var isNever = Boolean(context.options.length > 0 && context.options[0] === 'never')
+    var emberVar = 'Ember'
 
     return {
+      ImportDeclaration: function (node) {
+        if (node.source.value === 'ember') {
+          emberVar = node.specifiers[0].local.name
+        }
+      },
+
       MemberExpression: function (node) {
-        if (!isNever && node.object.name === 'Ember') {
-          context.report(node, 'Ember.' + node.property.name + ' should be destructured')
+        if (!isNever && node.object.name === emberVar) {
+          context.report(node, emberVar + '.' + node.property.name + ' should be destructured')
         }
       },
 
       VariableDeclarator: function (node) {
-        if (isNever && node.id.type === 'ObjectPattern' && node.init.name === 'Ember') {
-          context.report(node, 'Ember should not be destructured')
+        if (isNever && node.id.type === 'ObjectPattern' && node.init.name === emberVar) {
+          context.report(node, emberVar + ' should not be destructured')
         }
       }
     }
