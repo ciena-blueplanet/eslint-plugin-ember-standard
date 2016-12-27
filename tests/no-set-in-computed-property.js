@@ -1,11 +1,6 @@
 const RuleTester = require('eslint').RuleTester
 const rule = require('../rules/no-set-in-computed-property')
 
-const parserOptions = {
-  ecmaVersion: 8,
-  sourceType: 'module'
-}
-
 function invalidAlwaysTest (code, line) {
   return {
     code: code,
@@ -17,7 +12,7 @@ function invalidAlwaysTest (code, line) {
       }
     ],
     options: ['always'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
@@ -25,7 +20,7 @@ function validAlwaysTest (code) {
   return {
     code: code,
     options: ['always'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
@@ -125,7 +120,61 @@ ruleTester.run('no-set-in-computed-property', rule, {
       '  })\n' +
       '})',
       5
-    )
+    ),
+    invalidAlwaysTest(
+      'import Ember from "ember"\n' +
+      'const {Component, set} = Ember\n' +
+      'import computed from "ember-computed-decorators"\n' +
+      'export default Component.extend({\n' +
+      '  @computed("bar")\n' +
+      '  foo (bar) {\n' +
+      '    set(this, "baz", "spam")\n' +
+      '    return `${bar}-test`\n' +
+      '  }\n' +
+      '})',
+      7
+    ),
+    invalidAlwaysTest(
+      'import Ember from "ember"\n' +
+      'const {Component, set} = Ember\n' +
+      'import computed, {readOnly} from "ember-computed-decorators"\n' +
+      'export default Component.extend({\n' +
+      '  @readOnly\n' +
+      '  @computed("bar")\n' +
+      '  foo (bar) {\n' +
+      '    set(this, "baz", "spam")\n' +
+      '    return `${bar}-test`\n' +
+      '  }\n' +
+      '})',
+      8
+    ),
+    invalidAlwaysTest(
+      'import Ember from "ember"\n' +
+      'const {Component} = Ember\n' +
+      'import computed from "ember-computed-decorators"\n' +
+      'export default Component.extend({\n' +
+      '  @computed("bar")\n' +
+      '  foo (bar) {\n' +
+      '    this.set("baz", "spam")\n' +
+      '    return `${bar}-test`\n' +
+      '  }\n' +
+      '})',
+      7
+    ),
+    invalidAlwaysTest(
+      'import Ember from "ember"\n' +
+      'const {Component} = Ember\n' +
+      'import computed, {readOnly} from "ember-computed-decorators"\n' +
+      'export default Component.extend({\n' +
+      '  @readOnly\n' +
+      '  @computed("bar")\n' +
+      '  foo (bar) {\n' +
+      '    this.set("baz", "spam")\n' +
+      '    return `${bar}-test`\n' +
+      '  }\n' +
+      '})',
+      8
+    ),
   ],
   valid: [
     validAlwaysTest(

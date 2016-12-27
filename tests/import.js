@@ -1,11 +1,6 @@
 const RuleTester = require('eslint').RuleTester
 const rule = require('../rules/import')
 
-const parserOptions = {
-  ecmaVersion: 8,
-  sourceType: 'module'
-}
-
 function invalidAlwaysTest (code, emberVarName) {
   return {
     code: code,
@@ -17,7 +12,7 @@ function invalidAlwaysTest (code, emberVarName) {
       }
     ],
     options: ['always'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
@@ -32,7 +27,7 @@ function invalidNeverTest (code) {
       }
     ],
     options: ['never'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
@@ -40,7 +35,7 @@ function validAlwaysTest (code) {
   return {
     code: code,
     options: ['always'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 

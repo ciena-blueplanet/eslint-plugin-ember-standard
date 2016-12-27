@@ -1,11 +1,6 @@
 const RuleTester = require('eslint').RuleTester
 const rule = require('../rules/destructure')
 
-const parserOptions = {
-  ecmaVersion: 8,
-  sourceType: 'module'
-}
-
 function invalidAlwaysTest (code, name, emberVar) {
   emberVar = emberVar || 'Ember'
 
@@ -19,7 +14,7 @@ function invalidAlwaysTest (code, name, emberVar) {
       }
     ],
     options: ['always'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
@@ -34,7 +29,7 @@ function invalidNeverTest (code, name) {
       }
     ],
     options: ['never'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
@@ -42,7 +37,7 @@ function validAlwaysTest (code) {
   return {
     code: code,
     options: ['always'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
@@ -50,7 +45,7 @@ function validNeverTest (code) {
   return {
     code: code,
     options: ['never'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
