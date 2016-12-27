@@ -1,11 +1,6 @@
 const RuleTester = require('eslint').RuleTester
 const rule = require('../rules/logger')
 
-const parserOptions = {
-  ecmaVersion: 8,
-  sourceType: 'module'
-}
-
 function invalidAlwaysTest (code, propertyName) {
   return {
     code: code,
@@ -17,7 +12,7 @@ function invalidAlwaysTest (code, propertyName) {
       }
     ],
     options: ['always'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
@@ -25,13 +20,13 @@ function validAlwaysTest (code) {
   return {
     code: code,
     options: ['always'],
-    parserOptions
+    parser: 'babel-eslint'
   }
 }
 
 const ruleTester = new RuleTester()
 
-ruleTester.run('destructure', rule, {
+ruleTester.run('logger', rule, {
   invalid: [
     invalidAlwaysTest('import Ember from "ember"; console.debug("Test")', 'debug'),
     invalidAlwaysTest('import Foo from "ember"; console.debug("Test")', 'debug'),

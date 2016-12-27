@@ -1,24 +1,39 @@
 module.exports = {
   create: function (context) {
     var isNever = Boolean(context.options.length > 0 && context.options[0] === 'never')
-    var emberVar = 'Ember'
+    var emberVarName = 'Ember'
 
     return {
+      /**
+       * Get Ember variable name from import statement
+       * @example `import Ember from 'ember'` would yield "Ember"
+       * @example `import Foo from 'ember'` would yield "Foo"
+       * @param {ESLintNode} node - import declaration node
+       */
       ImportDeclaration: function (node) {
         if (node.source.value === 'ember') {
-          emberVar = node.specifiers[0].local.name
+          emberVarName = node.specifiers[0].local.name
         }
       },
 
+      /**
+       * Determine if Ember property is being referenced in an un-destructured manner
+       * @example `export default const Ember.Component.extend({})`
+       * @param {ESLintNode} node - member expression node
+       */
       MemberExpression: function (node) {
-        if (!isNever && node.object.name === emberVar) {
-          context.report(node, emberVar + '.' + node.property.name + ' should be destructured')
+        if (!isNever && node.object.name === emberVarName) {
+          context.report(node, emberVarName + '.' + node.property.name + ' should be destructured')
         }
       },
 
+      /**
+       * Determine if Ember is being destructured when in shouldn't be
+       * @param {ESLintNode} node - variable declarator node
+       */
       VariableDeclarator: function (node) {
-        if (isNever && node.id.type === 'ObjectPattern' && node.init.name === emberVar) {
-          context.report(node, emberVar + ' should not be destructured')
+        if (isNever && node.id.type === 'ObjectPattern' && node.init.name === emberVarName) {
+          context.report(node, emberVarName + ' should not be destructured')
         }
       }
     }
@@ -30,7 +45,6 @@ module.exports = {
       description: 'enforce destructuring of Ember classes',
       recommended: true
     },
-    fixable: 'code',
     schema: [
       {
         enum: [
