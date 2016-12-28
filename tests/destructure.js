@@ -28,6 +28,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Component',
           type: 'Program'
         },
         {
@@ -48,6 +49,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Controller',
           type: 'Program'
         },
         {
@@ -68,6 +70,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Route',
           type: 'Program'
         },
         {
@@ -88,6 +91,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Object',
           type: 'Program'
         },
         {
@@ -108,6 +112,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Object',
           type: 'Program'
         },
         {
@@ -128,6 +133,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Object',
           type: 'Program'
         },
         {
@@ -148,6 +154,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: String',
           type: 'Program'
         },
         {
@@ -168,6 +175,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: String',
           type: 'Program'
         },
         {
@@ -188,6 +196,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: String',
           type: 'Program'
         },
         {
@@ -210,6 +219,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Component',
           type: 'ImportDeclaration'
         },
         {
@@ -231,6 +241,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Controller',
           type: 'ImportDeclaration'
         },
         {
@@ -252,6 +263,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Route',
           type: 'ImportDeclaration'
         },
         {
@@ -273,6 +285,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Object',
           type: 'ImportDeclaration'
         },
         {
@@ -294,6 +307,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Object',
           type: 'ImportDeclaration'
         },
         {
@@ -315,6 +329,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Object',
           type: 'ImportDeclaration'
         },
         {
@@ -336,6 +351,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: String',
           type: 'ImportDeclaration'
         },
         {
@@ -357,6 +373,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: String',
           type: 'ImportDeclaration'
         },
         {
@@ -378,6 +395,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: String',
           type: 'ImportDeclaration'
         },
         {
@@ -401,6 +419,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Component',
           type: 'ImportDeclaration'
         },
         {
@@ -422,6 +441,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Controller',
           type: 'ImportDeclaration'
         },
         {
@@ -443,6 +463,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Route',
           type: 'ImportDeclaration'
         },
         {
@@ -464,6 +485,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Object',
           type: 'ImportDeclaration'
         },
         {
@@ -485,6 +507,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Object',
           type: 'ImportDeclaration'
         },
         {
@@ -506,6 +529,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Object',
           type: 'ImportDeclaration'
         },
         {
@@ -527,6 +551,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: String',
           type: 'ImportDeclaration'
         },
         {
@@ -548,6 +573,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: String',
           type: 'ImportDeclaration'
         },
         {
@@ -569,6 +595,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: String',
           type: 'ImportDeclaration'
         },
         {
@@ -592,6 +619,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: MODEL_FACTORY_INJECTIONS',
           type: 'Program'
         },
         {
@@ -612,6 +640,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: MODEL_FACTORY_INJECTIONS',
           type: 'ImportDeclaration'
         },
         {
@@ -635,6 +664,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 7,
           line: 1,
+          message: 'The following need destructured: MODEL_FACTORY_INJECTIONS',
           type: 'VariableDeclarator'
         },
         {
@@ -658,6 +688,7 @@ ruleTester.run('destructure', rule, {
         {
           column: 1,
           line: 1,
+          message: 'The following need destructured: Logger',
           type: 'Program'
         },
         {

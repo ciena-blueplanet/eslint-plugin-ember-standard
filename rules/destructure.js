@@ -69,6 +69,8 @@ module.exports = {
           return
         }
 
+        var message = 'The following need destructured: ' + propertiesToDestructure.sort().join(', ')
+
         var textToInsert = propertiesToDestructure
           .sort()
           .map(function (propertyName) {
@@ -90,6 +92,7 @@ module.exports = {
             fix: function (fixer) {
               return fixer.insertTextAfter(lastProperty, ', ' + textToInsert)
             },
+            message: message,
             node: emberDestructureVariableDeclarator
           })
 
@@ -102,6 +105,7 @@ module.exports = {
                 '\nconst {' + textToInsert + '} = ' + emberVarName + '\n'
               )
             },
+            message: message,
             node: emberImport
           })
 
@@ -112,6 +116,7 @@ module.exports = {
             fix: function (fixer) {
               return fixer.insertTextBefore(node, 'const {' + textToInsert + '} = Ember\n')
             },
+            message: message,
             node: node
           })
         }
