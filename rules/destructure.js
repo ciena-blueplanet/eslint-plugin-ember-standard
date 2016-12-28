@@ -1,7 +1,19 @@
+var reservedNames = [
+  'Object',
+  'String'
+]
+
+function capitalize (string) {
+  return string[0].toUpperCase() + string.split('').slice(1).join('')
+}
+
 module.exports = {
   create: function (context) {
-    var isNever = Boolean(context.options.length > 0 && context.options[0] === 'never')
+    var emberDestructureVariableDeclarator = null
+    var emberImport = null
     var emberVarName = 'Ember'
+    var isNever = Boolean(context.options.length > 0 && context.options[0] === 'never')
+    var propertiesToDestructure = []
 
     return {
       /**
@@ -12,6 +24,7 @@ module.exports = {
        */
       ImportDeclaration: function (node) {
         if (node.source.value === 'ember') {
+          emberImport = node
           emberVarName = node.specifiers[0].local.name
         }
       },
@@ -27,7 +40,80 @@ module.exports = {
           node.object.name === emberVarName &&
           node.parent.type !== 'AssignmentExpression'
         ) {
-          context.report(node, emberVarName + '.' + node.property.name + ' should be destructured')
+          if (propertiesToDestructure.indexOf(node.property.name) === -1) {
+            propertiesToDestructure.push(node.property.name)
+          }
+
+          context.report({
+            fix: function (fixer) {
+              var name = node.property.name
+
+              if (reservedNames.indexOf(name) !== -1) {
+                name = 'Ember' + capitalize(name)
+              }
+
+              return fixer.replaceText(node, name)
+            },
+            message: emberVarName + '.' + node.property.name + ' should be destructured',
+            node: node
+          })
+        }
+      },
+
+      /**
+       * Destructure Ember properties being used
+       * @param {ESLintNode} node - program node
+       */
+      'Program:exit': function (node) {
+        if (propertiesToDestructure.length === 0) {
+          return
+        }
+
+        var textToInsert = propertiesToDestructure
+          .sort()
+          .map(function (propertyName) {
+            if (reservedNames.indexOf(propertyName) !== -1) {
+              return propertyName + ': Ember' + capitalize(propertyName)
+            }
+
+            return propertyName
+          })
+          .join(', ')
+
+        // Add destructured properties to existing Ember destructure variable declarator
+        if (emberDestructureVariableDeclarator) {
+          var lastProperty = emberDestructureVariableDeclarator.id.properties[
+            emberDestructureVariableDeclarator.id.properties.length - 1
+          ]
+
+          context.report({
+            fix: function (fixer) {
+              return fixer.insertTextAfter(lastProperty, ', ' + textToInsert)
+            },
+            node: emberDestructureVariableDeclarator
+          })
+
+        // Since there is no Ember destructure variable declarator add one after import
+        } else if (emberImport) {
+          context.report({
+            fix: function (fixer) {
+              return fixer.insertTextAfter(
+                emberImport,
+                '\nconst {' + textToInsert + '} = ' + emberVarName + '\n'
+              )
+            },
+            node: emberImport
+          })
+
+        // Since there is no variable declarator or import, add them to the top
+        // (only adding import when "never" option isn't present)
+        } else {
+          context.report({
+            fix: function (fixer) {
+              return fixer.insertTextBefore(node, 'const {' + textToInsert + '} = Ember\n')
+            },
+            node: node
+          })
         }
       },
 
@@ -36,8 +122,18 @@ module.exports = {
        * @param {ESLintNode} node - variable declarator node
        */
       VariableDeclarator: function (node) {
-        if (isNever && node.id.type === 'ObjectPattern' && node.init.name === emberVarName) {
-          context.report(node, emberVarName + ' should not be destructured')
+        if (node.id.type === 'ObjectPattern' && node.init.name === emberVarName) {
+          emberDestructureVariableDeclarator = node
+
+          if (isNever) {
+            context.report({
+              fix: function (fixer) {
+                return fixer.remove(node.parent)
+              },
+              message: emberVarName + ' should not be destructured',
+              node: node.parent
+            })
+          }
         }
       }
     }
@@ -49,6 +145,7 @@ module.exports = {
       description: 'Enforce destructuring of Ember classes',
       recommended: true
     },
+    fixable: 'code',
     schema: [
       {
         enum: [
