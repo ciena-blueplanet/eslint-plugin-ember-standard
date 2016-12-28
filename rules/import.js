@@ -27,7 +27,7 @@ module.exports = {
     deprecated: false,
     docs: {
       category: 'Stylistic Issues',
-      description: 'enforce import of Ember instead of using global',
+      description: 'Enforce import of Ember instead of using global',
       recommended: true
     },
     schema: [

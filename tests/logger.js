@@ -1,5 +1,5 @@
-const RuleTester = require('eslint').RuleTester
-const rule = require('../rules/logger')
+var RuleTester = require('eslint').RuleTester
+var rule = require('../rules/logger')
 
 function invalidAlwaysTest (code, propertyName) {
   return {
@@ -24,7 +24,7 @@ function validAlwaysTest (code) {
   }
 }
 
-const ruleTester = new RuleTester()
+var ruleTester = new RuleTester()
 
 ruleTester.run('logger', rule, {
   invalid: [

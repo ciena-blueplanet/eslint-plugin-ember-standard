@@ -1,5 +1,5 @@
-const RuleTester = require('eslint').RuleTester
-const rule = require('../rules/destructure')
+var RuleTester = require('eslint').RuleTester
+var rule = require('../rules/destructure')
 
 function invalidAlwaysTest (code, name, emberVar) {
   emberVar = emberVar || 'Ember'
@@ -49,7 +49,7 @@ function validNeverTest (code) {
   }
 }
 
-const ruleTester = new RuleTester()
+var ruleTester = new RuleTester()
 
 ruleTester.run('destructure', rule, {
   invalid: [

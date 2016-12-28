@@ -1,5 +1,5 @@
-const RuleTester = require('eslint').RuleTester
-const rule = require('../rules/no-set-in-computed-property')
+var RuleTester = require('eslint').RuleTester
+var rule = require('../rules/no-set-in-computed-property')
 
 function invalidAlwaysTest (code, line) {
   return {
@@ -24,7 +24,7 @@ function validAlwaysTest (code) {
   }
 }
 
-const ruleTester = new RuleTester()
+var ruleTester = new RuleTester()
 
 ruleTester.run('no-set-in-computed-property', rule, {
   invalid: [

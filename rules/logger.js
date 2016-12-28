@@ -33,7 +33,7 @@ module.exports = {
     deprecated: false,
     docs: {
       category: 'Best Practices',
-      description: 'enforce usage of Ember.Logger over console',
+      description: 'Enforce usage of Ember.Logger over console',
       recommended: true
     },
     schema: [
