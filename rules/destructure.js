@@ -22,7 +22,11 @@ module.exports = {
        * @param {ESLintNode} node - member expression node
        */
       MemberExpression: function (node) {
-        if (!isNever && node.object.name === emberVarName) {
+        if (
+          !isNever &&
+          node.object.name === emberVarName &&
+          node.parent.type !== 'AssignmentExpression'
+        ) {
           context.report(node, emberVarName + '.' + node.property.name + ' should be destructured')
         }
       },

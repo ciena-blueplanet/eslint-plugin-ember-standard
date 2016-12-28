@@ -11,7 +11,7 @@ module.exports = {
        * @param {ESLintNode} node - call expression node
        */
       CallExpression: function (node) {
-        if (isEmberImported && node.callee.object.name === 'console') {
+        if (isEmberImported && node.callee.object && node.callee.object.name === 'console') {
           var propertyName = node.callee.property.name
           context.report(node, 'Use Ember.Logger.' + propertyName + ' instead of console.' + propertyName)
         }
