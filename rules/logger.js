@@ -1,6 +1,16 @@
+var VALID_LOGGER_METHODS = [
+  'assert',
+  'debug',
+  'error',
+  'info',
+  'log',
+  'warn'
+]
+
 module.exports = {
   create: function (context) {
-    var isEmberImported = false
+    var emberVarName = null
+    var isLoggerDestructured = false
     var isNever = Boolean(context.options.length > 0 && context.options[0] === 'never')
 
     return {
@@ -11,9 +21,21 @@ module.exports = {
        * @param {ESLintNode} node - call expression node
        */
       CallExpression: function (node) {
-        if (isEmberImported && node.callee.object && node.callee.object.name === 'console') {
+        if (
+          emberVarName &&
+          node.callee.object &&
+          node.callee.object.name === 'console' &&
+          VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
+        ) {
           var propertyName = node.callee.property.name
-          context.report(node, 'Use Ember.Logger.' + propertyName + ' instead of console.' + propertyName)
+          context.report({
+            fix: function (fixer) {
+              var replacement = (isLoggerDestructured ? 'Logger' : emberVarName + '.Logger')
+              return fixer.replaceText(node.callee.object, replacement)
+            },
+            message: 'Use Ember.Logger instead of console',
+            node: node.callee.object
+          })
         }
       },
 
@@ -24,7 +46,25 @@ module.exports = {
        */
       ImportDeclaration: function (node) {
         if (node.source.value === 'ember') {
-          isEmberImported = true
+          emberVarName = node.specifiers[0].local.name
+        }
+      },
+
+      /**
+       * Determine if Logger has been destructured or not
+       * @param {ESLintNode} node - variable declarator node
+       */
+      VariableDeclarator: function (node) {
+        if (
+          node.id.type === 'ObjectPattern' &&
+          node.init.name === emberVarName &&
+          node.id.properties.length !== 0
+        ) {
+          node.id.properties.forEach(function (property) {
+            if (property.key.name === 'Logger') {
+              isLoggerDestructured = true
+            }
+          })
         }
       }
     }
@@ -36,6 +76,7 @@ module.exports = {
       description: 'Enforce usage of Ember.Logger over console',
       recommended: true
     },
+    fixable: 'code',
     schema: [
       {
         enum: [
