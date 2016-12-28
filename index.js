@@ -10,6 +10,9 @@ module.exports = {
     }
   },
   rules: {
-    'destructure': require('./rules/destructure')
+    'destructure': require('./rules/destructure'),
+    'import': require('./rules/import'),
+    'logger': require('./rules/logger'),
+    'no-set-in-computed-property': require('./rules/no-set-in-computed-property')
   }
 }
