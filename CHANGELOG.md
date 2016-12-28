@@ -1,3 +1,9 @@
+# 0.0.6
+
+* **Fixed** `destructure` rule to not falsely flag assignment of Ember variables.
+* **Fixed** `logger` rule to not die under certain scenarios.
+
+
 # 0.0.5
 
 * **Added** new rule: `single-destructure` to prevent destructuring Ember in more than one variable declarator.
