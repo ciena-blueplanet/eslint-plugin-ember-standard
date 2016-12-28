@@ -1,3 +1,8 @@
+# 0.0.8
+
+* **Added** fixable functionality to `single-destructure` rule.
+
+
 # 0.0.7
 
 * **Added** fixable functionality to `import` and `logger` rules.
