@@ -1,38 +1,6 @@
 var RuleTester = require('eslint').RuleTester
 var rule = require('../rules/destructure')
 
-function invalidAlwaysTest (code, name, emberVar) {
-  emberVar = emberVar || 'Ember'
-
-  return {
-    code: code,
-    errors: [
-      {
-        line: 1,
-        message: emberVar + '.' + name + ' should be destructured',
-        type: 'MemberExpression'
-      }
-    ],
-    options: ['always'],
-    parser: 'babel-eslint'
-  }
-}
-
-function invalidNeverTest (code, name) {
-  return {
-    code: code,
-    errors: [
-      {
-        line: 1,
-        message: 'Ember should not be destructured',
-        type: 'VariableDeclarator'
-      }
-    ],
-    options: ['never'],
-    parser: 'babel-eslint'
-  }
-}
-
 function validAlwaysTest (code) {
   return {
     code: code,
@@ -54,45 +22,694 @@ var ruleTester = new RuleTester()
 ruleTester.run('destructure', rule, {
   invalid: [
     // Global "Ember" variable
-    invalidAlwaysTest('export default Ember.Component.extend({})', 'Component'),
-    invalidAlwaysTest('export default Ember.Controller.extend({})', 'Controller'),
-    invalidAlwaysTest('export default Ember.Route.extend({})', 'Route'),
-    invalidAlwaysTest('var a = Ember.Object.create({})', 'Object'),
-    invalidAlwaysTest('let a = Ember.Object.create({})', 'Object'),
-    invalidAlwaysTest('const a = Ember.Object.create({})', 'Object'),
-    invalidAlwaysTest('var a = Ember.String.camelize("foo-bar")', 'String'),
-    invalidAlwaysTest('let a = Ember.String.camelize("foo-bar")', 'String'),
-    invalidAlwaysTest('const a = Ember.String.camelize("foo-bar")', 'String'),
+    {
+      code: 'export default Ember.Component.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 16,
+          line: 1,
+          message: 'Ember.Component should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {Component} = Ember\n' +
+              'export default Component.extend({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'export default Ember.Controller.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 16,
+          line: 1,
+          message: 'Ember.Controller should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {Controller} = Ember\n' +
+              'export default Controller.extend({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'export default Ember.Route.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 16,
+          line: 1,
+          message: 'Ember.Route should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {Route} = Ember\n' +
+              'export default Route.extend({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'var a = Ember.Object.create({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 9,
+          line: 1,
+          message: 'Ember.Object should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {Object: EmberObject} = Ember\n' +
+              'var a = EmberObject.create({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'let a = Ember.Object.create({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 9,
+          line: 1,
+          message: 'Ember.Object should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {Object: EmberObject} = Ember\n' +
+              'let a = EmberObject.create({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'const a = Ember.Object.create({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 11,
+          line: 1,
+          message: 'Ember.Object should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {Object: EmberObject} = Ember\n' +
+              'const a = EmberObject.create({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'var a = Ember.String.camelize("foo-bar")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 9,
+          line: 1,
+          message: 'Ember.String should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {String: EmberString} = Ember\n' +
+              'var a = EmberString.camelize("foo-bar")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'let a = Ember.String.camelize("foo-bar")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 9,
+          line: 1,
+          message: 'Ember.String should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {String: EmberString} = Ember\n' +
+              'let a = EmberString.camelize("foo-bar")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'const a = Ember.String.camelize("foo-bar")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 11,
+          line: 1,
+          message: 'Ember.String should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {String: EmberString} = Ember\n' +
+              'const a = EmberString.camelize("foo-bar")',
+      parser: 'babel-eslint'
+    },
 
     // Import Ember as "Ember" variable
-    invalidAlwaysTest('import Ember from "ember"; export default Ember.Component.extend({})', 'Component'),
-    invalidAlwaysTest('import Ember from "ember"; export default Ember.Controller.extend({})', 'Controller'),
-    invalidAlwaysTest('import Ember from "ember"; export default Ember.Route.extend({})', 'Route'),
-    invalidAlwaysTest('import Ember from "ember"; var a = Ember.Object.create({})', 'Object'),
-    invalidAlwaysTest('import Ember from "ember"; let a = Ember.Object.create({})', 'Object'),
-    invalidAlwaysTest('import Ember from "ember"; const a = Ember.Object.create({})', 'Object'),
-    invalidAlwaysTest('import Ember from "ember"; var a = Ember.String.camelize("foo-bar")', 'String'),
-    invalidAlwaysTest('import Ember from "ember"; let a = Ember.String.camelize("foo-bar")', 'String'),
-    invalidAlwaysTest('import Ember from "ember"; const a = Ember.String.camelize("foo-bar")', 'String'),
+    {
+      code: 'import Ember from "ember"; export default Ember.Component.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 43,
+          line: 1,
+          message: 'Ember.Component should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember";\n' +
+              'const {Component} = Ember\n' +
+              ' export default Component.extend({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"; export default Ember.Controller.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 43,
+          line: 1,
+          message: 'Ember.Controller should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember";\n' +
+              'const {Controller} = Ember\n' +
+              ' export default Controller.extend({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"; export default Ember.Route.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 43,
+          line: 1,
+          message: 'Ember.Route should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember";\n' +
+              'const {Route} = Ember\n' +
+              ' export default Route.extend({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"; var a = Ember.Object.create({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 36,
+          line: 1,
+          message: 'Ember.Object should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember";\n' +
+              'const {Object: EmberObject} = Ember\n' +
+              ' var a = EmberObject.create({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"; let a = Ember.Object.create({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 36,
+          line: 1,
+          message: 'Ember.Object should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember";\n' +
+              'const {Object: EmberObject} = Ember\n' +
+              ' let a = EmberObject.create({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"; const a = Ember.Object.create({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 38,
+          line: 1,
+          message: 'Ember.Object should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember";\n' +
+              'const {Object: EmberObject} = Ember\n' +
+              ' const a = EmberObject.create({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"; var a = Ember.String.camelize("foo-bar")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 36,
+          line: 1,
+          message: 'Ember.String should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember";\n' +
+              'const {String: EmberString} = Ember\n' +
+              ' var a = EmberString.camelize("foo-bar")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"; let a = Ember.String.camelize("foo-bar")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 36,
+          line: 1,
+          message: 'Ember.String should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember";\n' +
+              'const {String: EmberString} = Ember\n' +
+              ' let a = EmberString.camelize("foo-bar")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"; const a = Ember.String.camelize("foo-bar")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 38,
+          line: 1,
+          message: 'Ember.String should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember";\n' +
+              'const {String: EmberString} = Ember\n' +
+              ' const a = EmberString.camelize("foo-bar")',
+      parser: 'babel-eslint'
+    },
 
     // Import Ember as "Foo" variable
-    invalidAlwaysTest('import Foo from "ember"; export default Foo.Component.extend({})', 'Component', 'Foo'),
-    invalidAlwaysTest('import Foo from "ember"; export default Foo.Controller.extend({})', 'Controller', 'Foo'),
-    invalidAlwaysTest('import Foo from "ember"; export default Foo.Route.extend({})', 'Route', 'Foo'),
-    invalidAlwaysTest('import Foo from "ember"; var a = Foo.Object.create({})', 'Object', 'Foo'),
-    invalidAlwaysTest('import Foo from "ember"; let a = Foo.Object.create({})', 'Object', 'Foo'),
-    invalidAlwaysTest('import Foo from "ember"; const a = Foo.Object.create({})', 'Object', 'Foo'),
-    invalidAlwaysTest('import Foo from "ember"; var a = Foo.String.camelize("foo-bar")', 'String', 'Foo'),
-    invalidAlwaysTest('import Foo from "ember"; let a = Foo.String.camelize("foo-bar")', 'String', 'Foo'),
-    invalidAlwaysTest('import Foo from "ember"; const a = Foo.String.camelize("foo-bar")', 'String', 'Foo'),
+    {
+      code: 'import Foo from "ember"; export default Foo.Component.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 41,
+          line: 1,
+          message: 'Foo.Component should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {Component} = Foo\n' +
+              ' export default Component.extend({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; export default Foo.Controller.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 41,
+          line: 1,
+          message: 'Foo.Controller should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {Controller} = Foo\n' +
+              ' export default Controller.extend({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; export default Foo.Route.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 41,
+          line: 1,
+          message: 'Foo.Route should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {Route} = Foo\n' +
+              ' export default Route.extend({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; var a = Foo.Object.create({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 34,
+          line: 1,
+          message: 'Foo.Object should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {Object: EmberObject} = Foo\n' +
+              ' var a = EmberObject.create({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; let a = Foo.Object.create({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 34,
+          line: 1,
+          message: 'Foo.Object should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {Object: EmberObject} = Foo\n' +
+              ' let a = EmberObject.create({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; const a = Foo.Object.create({})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 36,
+          line: 1,
+          message: 'Foo.Object should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {Object: EmberObject} = Foo\n' +
+              ' const a = EmberObject.create({})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; var a = Foo.String.camelize("foo-bar")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 34,
+          line: 1,
+          message: 'Foo.String should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {String: EmberString} = Foo\n' +
+              ' var a = EmberString.camelize("foo-bar")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; let a = Foo.String.camelize("foo-bar")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 34,
+          line: 1,
+          message: 'Foo.String should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {String: EmberString} = Foo\n' +
+              ' let a = EmberString.camelize("foo-bar")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; const a = Foo.String.camelize("foo-bar")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 36,
+          line: 1,
+          message: 'Foo.String should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {String: EmberString} = Foo\n' +
+              ' const a = EmberString.camelize("foo-bar")',
+      parser: 'babel-eslint'
+    },
 
     // Make sure it doesn't complain on assignment
-    invalidAlwaysTest('const bar = Ember.MODEL_FACTORY_INJECTIONS', 'MODEL_FACTORY_INJECTIONS'),
-    invalidAlwaysTest('import Foo from "ember"; const bar = Foo.MODEL_FACTORY_INJECTIONS', 'MODEL_FACTORY_INJECTIONS', 'Foo'),
+    {
+      code: 'const bar = Ember.MODEL_FACTORY_INJECTIONS',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 13,
+          line: 1,
+          message: 'Ember.MODEL_FACTORY_INJECTIONS should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {MODEL_FACTORY_INJECTIONS} = Ember\n' +
+              'const bar = MODEL_FACTORY_INJECTIONS',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; const bar = Foo.MODEL_FACTORY_INJECTIONS',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 38,
+          line: 1,
+          message: 'Foo.MODEL_FACTORY_INJECTIONS should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember";\n' +
+              'const {MODEL_FACTORY_INJECTIONS} = Foo\n' +
+              ' const bar = MODEL_FACTORY_INJECTIONS',
+      parser: 'babel-eslint'
+    },
+
+    // Make sure it adds to existing destructure variable declarator
+    {
+      code: 'const {A} = Ember; const bar = Ember.MODEL_FACTORY_INJECTIONS',
+      errors: [
+        {
+          column: 7,
+          line: 1,
+          type: 'VariableDeclarator'
+        },
+        {
+          column: 32,
+          line: 1,
+          message: 'Ember.MODEL_FACTORY_INJECTIONS should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {A, MODEL_FACTORY_INJECTIONS} = Ember; const bar = MODEL_FACTORY_INJECTIONS',
+      parser: 'babel-eslint'
+    },
+
+    // Make sure it only destructures a property once
+    {
+      code: 'import x from "x"\n' +
+            'Ember.Logger.info("Test 1")\n' +
+            'Ember.Logger.info("Test2")',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          type: 'Program'
+        },
+        {
+          column: 1,
+          line: 2,
+          message: 'Ember.Logger should be destructured',
+          type: 'MemberExpression'
+        },
+        {
+          column: 1,
+          line: 3,
+          message: 'Ember.Logger should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'const {Logger} = Ember\n' +
+              'import x from "x"\n' +
+              'Logger.info("Test 1")\n' +
+              'Logger.info("Test2")',
+      parser: 'babel-eslint'
+    },
 
     // Destructuring when rule is set to "never"
-    invalidNeverTest('const {Controller} = Ember'),
-    invalidNeverTest('const {Component, Logger} = Ember')
+    {
+      code: 'const {Controller} = Ember',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          message: 'Ember should not be destructured',
+          type: 'VariableDeclaration'
+        }
+      ],
+      options: ['never'],
+      output: '',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'const {Component, Logger} = Ember',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          message: 'Ember should not be destructured',
+          type: 'VariableDeclaration'
+        }
+      ],
+      options: ['never'],
+      output: '',
+      parser: 'babel-eslint'
+    }
   ],
   valid: [
     // Destructuring of global "Ember" variable
@@ -113,8 +730,8 @@ ruleTester.run('destructure', rule, {
     validAlwaysTest('export default Route.extend({})'),
 
     // Make sure it doesn't complain on assignment
-    invalidAlwaysTest('Ember.MODEL_FACTORY_INJECTIONS = true'),
-    invalidAlwaysTest('import Foo from "ember"; Foo.MODEL_FACTORY_INJECTIONS = true'),
+    validAlwaysTest('Ember.MODEL_FACTORY_INJECTIONS = true'),
+    validAlwaysTest('import Foo from "ember"; Foo.MODEL_FACTORY_INJECTIONS = true'),
 
     // Calling non-destructured Ember classes when rule is set to "never"
     validNeverTest('export default Ember.Component.extend({})'),
