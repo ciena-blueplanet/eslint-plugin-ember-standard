@@ -1,3 +1,8 @@
+# 0.0.4
+
+* **Fixed** plugin to actually export all rules so consumers can leverage them.
+
+
 # 0.0.3
 
 * **Fixed** code coverage reporting on CI.
