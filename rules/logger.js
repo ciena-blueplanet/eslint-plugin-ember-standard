@@ -28,12 +28,13 @@ module.exports = {
           VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
         ) {
           var propertyName = node.callee.property.name
+          var replacement = (isLoggerDestructured ? 'Logger' : emberVarName + '.Logger')
+
           context.report({
             fix: function (fixer) {
-              var replacement = (isLoggerDestructured ? 'Logger' : emberVarName + '.Logger')
               return fixer.replaceText(node.callee.object, replacement)
             },
-            message: 'Use Ember.Logger instead of console',
+            message: 'Use ' + replacement + ' instead of console',
             node: node.callee.object
           })
         }

@@ -33,7 +33,7 @@ ruleTester.run('logger', rule, {
         {
           column: 26,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Foo.Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -61,7 +61,7 @@ ruleTester.run('logger', rule, {
         {
           column: 26,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Foo.Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -89,7 +89,7 @@ ruleTester.run('logger', rule, {
         {
           column: 26,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Foo.Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -117,7 +117,7 @@ ruleTester.run('logger', rule, {
         {
           column: 26,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Foo.Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -145,7 +145,7 @@ ruleTester.run('logger', rule, {
         {
           column: 26,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Foo.Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -159,7 +159,7 @@ ruleTester.run('logger', rule, {
         {
           column: 52,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -173,7 +173,7 @@ ruleTester.run('logger', rule, {
         {
           column: 48,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -187,7 +187,7 @@ ruleTester.run('logger', rule, {
         {
           column: 52,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -201,7 +201,7 @@ ruleTester.run('logger', rule, {
         {
           column: 48,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -215,7 +215,7 @@ ruleTester.run('logger', rule, {
         {
           column: 52,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -229,7 +229,7 @@ ruleTester.run('logger', rule, {
         {
           column: 48,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -243,7 +243,7 @@ ruleTester.run('logger', rule, {
         {
           column: 52,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -257,7 +257,7 @@ ruleTester.run('logger', rule, {
         {
           column: 48,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -271,7 +271,7 @@ ruleTester.run('logger', rule, {
         {
           column: 52,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
@@ -285,7 +285,7 @@ ruleTester.run('logger', rule, {
         {
           column: 48,
           line: 1,
-          message: 'Use Ember.Logger instead of console',
+          message: 'Use Logger instead of console',
           type: 'Identifier'
         }
       ],
