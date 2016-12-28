@@ -42,7 +42,7 @@ module.exports = {
     deprecated: false,
     docs: {
       category: 'Stylistic Issues',
-      description: 'enforce destructuring of Ember classes',
+      description: 'Enforce destructuring of Ember classes',
       recommended: true
     },
     schema: [

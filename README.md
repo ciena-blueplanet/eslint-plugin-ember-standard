@@ -26,6 +26,7 @@ npm install --save-dev eslint-plugin-ember-standard
 *   [import](documentation/rules/import.md)
 *   [logger](documentation/rules/logger.md)
 *   [no-set-in-computed-property](documentation/rules/no-set-in-computed-property.md)
+*   [single-destructure](documentation/rules/single-destructure.md)
 
 [bithound-img]: https://www.bithound.io/github/ciena-blueplanet/eslint-plugin-ember-standard/badges/score.svg "bitHound"
 [bithound-url]: https://www.bithound.io/github/ciena-blueplanet/eslint-plugin-ember-standard
