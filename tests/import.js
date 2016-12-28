@@ -1,29 +1,6 @@
 var RuleTester = require('eslint').RuleTester
 var rule = require('../rules/import')
 
-function invalidNeverTest (code) {
-  return {
-    code: code,
-    errors: [
-      {
-        line: 1,
-        message: 'Use "Ember" global instead of explicitly importing from "ember"',
-        type: 'ImportDeclaration'
-      }
-    ],
-    options: ['never'],
-    parser: 'babel-eslint'
-  }
-}
-
-function validAlwaysTest (code) {
-  return {
-    code: code,
-    options: ['always'],
-    parser: 'babel-eslint'
-  }
-}
-
 var ruleTester = new RuleTester()
 
 ruleTester.run('import', rule, {
@@ -86,12 +63,68 @@ ruleTester.run('import', rule, {
               '})',
       parser: 'babel-eslint'
     },
-    invalidNeverTest('import Ember from "ember"'),
-    invalidNeverTest('import Foo from "foo"; import Ember from "ember"'),
-    invalidNeverTest('import Foo from "ember"'),
-    invalidNeverTest('import Foo from "foo"; import Bar from "ember"'),
+    {
+      code: 'import Ember from "ember"',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          message: 'Use "Ember" global instead of explicitly importing from "ember"',
+          type: 'ImportDeclaration'
+        }
+      ],
+      options: ['never'],
+      output: '',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "foo"; import Ember from "ember"',
+      errors: [
+        {
+          column: 24,
+          line: 1,
+          message: 'Use "Ember" global instead of explicitly importing from "ember"',
+          type: 'ImportDeclaration'
+        }
+      ],
+      options: ['never'],
+      output: 'import Foo from "foo"; ',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          message: 'Use "Ember" global instead of explicitly importing from "ember"',
+          type: 'ImportDeclaration'
+        }
+      ],
+      options: ['never'],
+      output: '',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "foo"; import Bar from "ember"',
+      errors: [
+        {
+          column: 24,
+          line: 1,
+          message: 'Use "Ember" global instead of explicitly importing from "ember"',
+          type: 'ImportDeclaration'
+        }
+      ],
+      options: ['never'],
+      output: 'import Foo from "foo"; ',
+      parser: 'babel-eslint'
+    }
   ],
   valid: [
-    validAlwaysTest('import Ember from "ember"')
+    {
+      code: 'import Ember from "ember"',
+      options: ['always'],
+      parser: 'babel-eslint'
+    }
   ]
 })

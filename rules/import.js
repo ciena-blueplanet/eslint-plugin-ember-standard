@@ -17,7 +17,13 @@ module.exports = {
         emberVarName = node.specifiers[0].local.name
 
         if (isNever) {
-          context.report(node, 'Use "Ember" global instead of explicitly importing from "ember"')
+          context.report({
+            fix: function (fixer) {
+              return fixer.remove(node)
+            },
+            message: 'Use "Ember" global instead of explicitly importing from "ember"',
+            node: node
+          })
         } else if (emberVarName !== 'Ember') {
           context.report({
             fix: function (fixer) {
