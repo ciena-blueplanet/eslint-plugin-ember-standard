@@ -52,6 +52,10 @@ module.exports = {
         })
       },
 
+      /**
+       * Rename members that were previously imported under a different name
+       * @param {ESLintNode} node - member expression node
+       */
       MemberExpression: function (node) {
         propertiesToRename.forEach(function (nameDef) {
           if (node.object.name === nameDef.oldName) {
