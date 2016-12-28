@@ -1,3 +1,8 @@
+# 0.0.5
+
+* **Added** new rule: `single-destructure` to prevent destructuring Ember in more than one variable declarator.
+
+
 # 0.0.4
 
 * **Fixed** plugin to actually export all rules so consumers can leverage them.
