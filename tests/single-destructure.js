@@ -36,6 +36,8 @@ ruleTester.run('single-destructure', rule, {
   ],
   valid: [
     validTest('import Ember from "ember"; const {Component} = Ember'),
+    validTest('import Ember from "ember"; import X from "x"; const {Component} = Ember'),
+    validTest('import Ember from "ember"; const {Component} = Ember; const x = "y"'),
     validTest('import Foo from "ember"; const {Component} = Foo'),
     validTest('import Ember from "ember"; const {Component, Logger} = Ember'),
     validTest('import Foo from "ember"; const {Component, Logger} = Foo')

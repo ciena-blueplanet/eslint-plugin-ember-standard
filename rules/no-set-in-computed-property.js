@@ -102,7 +102,7 @@ module.exports = {
           node.id.properties.length !== 0
         ) {
           node.id.properties.forEach(function (property) {
-            switch(property.key.name) {
+            switch (property.key.name) {
               case 'computed':
                 computedVarName = property.value.name
                 break
