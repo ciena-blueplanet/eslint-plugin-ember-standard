@@ -1,3 +1,8 @@
+# 0.0.7
+
+* **Added** fixable functionality to `import` and `logger` rules.
+
+
 # 0.0.6
 
 * **Fixed** `destructure` rule to not falsely flag assignment of Ember variables.
