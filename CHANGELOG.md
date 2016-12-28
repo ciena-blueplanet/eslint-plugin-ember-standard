@@ -1,3 +1,9 @@
+# 0.0.9
+
+* **Added** fixable functionality to `destructure` rule.
+* **Fixed** fixable functionality for `import` rule when `never` option is passed in.
+
+
 # 0.0.8
 
 * **Added** fixable functionality to `single-destructure` rule.
