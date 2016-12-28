@@ -86,6 +86,10 @@ ruleTester.run('destructure', rule, {
     invalidAlwaysTest('import Foo from "ember"; let a = Foo.String.camelize("foo-bar")', 'String', 'Foo'),
     invalidAlwaysTest('import Foo from "ember"; const a = Foo.String.camelize("foo-bar")', 'String', 'Foo'),
 
+    // Make sure it doesn't complain on assignment
+    invalidAlwaysTest('const bar = Ember.MODEL_FACTORY_INJECTIONS', 'MODEL_FACTORY_INJECTIONS'),
+    invalidAlwaysTest('import Foo from "ember"; const bar = Foo.MODEL_FACTORY_INJECTIONS', 'MODEL_FACTORY_INJECTIONS', 'Foo'),
+
     // Destructuring when rule is set to "never"
     invalidNeverTest('const {Controller} = Ember'),
     invalidNeverTest('const {Component, Logger} = Ember')
@@ -107,6 +111,10 @@ ruleTester.run('destructure', rule, {
     validAlwaysTest('export default Component.extend({})'),
     validAlwaysTest('export default Controller.extend({})'),
     validAlwaysTest('export default Route.extend({})'),
+
+    // Make sure it doesn't complain on assignment
+    invalidAlwaysTest('Ember.MODEL_FACTORY_INJECTIONS = true'),
+    invalidAlwaysTest('import Foo from "ember"; Foo.MODEL_FACTORY_INJECTIONS = true'),
 
     // Calling non-destructured Ember classes when rule is set to "never"
     validNeverTest('export default Ember.Component.extend({})'),
