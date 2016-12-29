@@ -22,12 +22,21 @@ npm install --save-dev eslint-plugin-ember-standard
 
 ## Rules
 
-*   [computed-property-readonly](documentation/rules/computed-property-readonly.md)
-*   [destructure](documentation/rules/destructure.md)
-*   [import](documentation/rules/import.md)
-*   [logger](documentation/rules/logger.md)
-*   [no-set-in-computed-property](documentation/rules/no-set-in-computed-property.md)
-*   [single-destructure](documentation/rules/single-destructure.md)
+### Possible Errors
+
+*   [no-set-in-computed-property](documentation/rules/no-set-in-computed-property.md) – Prevent side effects.
+* [no-settimeout](documentation/rules/no-settimeout.md) – Make run loop aware of timeouts.
+
+### Best Practices
+
+*   [computed-property-readonly](documentation/rules/computed-property-readonly.md) – Enforce data down, actions up.
+*   [logger](documentation/rules/logger.md) – Make sure logging goes through Ember.
+
+### Stylistic Issues
+
+*   [destructure](documentation/rules/destructure.md) – Make sure Ember properties are destructured.
+*   [import](documentation/rules/import.md) – Make sure Ember is explicitly imported.
+*   [single-destructure](documentation/rules/single-destructure.md) – Make sure Ember properties are destructured in a single variable declaration.
 
 [bithound-img]: https://www.bithound.io/github/ciena-blueplanet/eslint-plugin-ember-standard/badges/score.svg "bitHound"
 [bithound-url]: https://www.bithound.io/github/ciena-blueplanet/eslint-plugin-ember-standard

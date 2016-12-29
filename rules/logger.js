@@ -10,8 +10,8 @@ var VALID_LOGGER_METHODS = [
 module.exports = {
   create: function (context) {
     var emberVarName = null
-    var isLoggerDestructured = false
     var isNever = Boolean(context.options.length > 0 && context.options[0] === 'never')
+    var loggerVarName = null
 
     return {
       /**
@@ -28,7 +28,7 @@ module.exports = {
           VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
         ) {
           var propertyName = node.callee.property.name
-          var replacement = (isLoggerDestructured ? 'Logger' : emberVarName + '.Logger')
+          var replacement = loggerVarName || emberVarName + '.Logger'
 
           context.report({
             fix: function (fixer) {
@@ -63,7 +63,7 @@ module.exports = {
         ) {
           node.id.properties.forEach(function (property) {
             if (property.key.name === 'Logger') {
-              isLoggerDestructured = true
+              loggerVarName = property.value.name
             }
           })
         }

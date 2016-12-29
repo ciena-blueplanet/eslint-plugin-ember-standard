@@ -292,6 +292,34 @@ ruleTester.run('logger', rule, {
       options: ['always'],
       output: 'import Foo from "ember"; const {Logger} = Foo; Logger.warn("Test")',
       parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"; const {Logger: Logga} = Ember; console.warn("Test")',
+      errors: [
+        {
+          column: 59,
+          line: 1,
+          message: 'Use Logga instead of console',
+          type: 'Identifier'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember"; const {Logger: Logga} = Ember; Logga.warn("Test")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"; const {Logger: Logga} = Foo; console.warn("Test")',
+      errors: [
+        {
+          column: 55,
+          line: 1,
+          message: 'Use Logga instead of console',
+          type: 'Identifier'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember"; const {Logger: Logga} = Foo; Logga.warn("Test")',
+      parser: 'babel-eslint'
     }
   ],
   valid: [
