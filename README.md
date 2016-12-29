@@ -22,6 +22,7 @@ npm install --save-dev eslint-plugin-ember-standard
 
 ## Rules
 
+*   [computed-property-readonly](documentation/rules/computed-property-readonly.md)
 *   [destructure](documentation/rules/destructure.md)
 *   [import](documentation/rules/import.md)
 *   [logger](documentation/rules/logger.md)

@@ -2,6 +2,7 @@ module.exports = {
   configs: {
     'ember-standard': {
       rules: {
+        'ember-standard/computed-property-readonly': [2, "always"],
         'ember-standard/destructure': [2, "always"],
         'ember-standard/import': [2, "always"],
         'ember-standard/logger': [2, "always"],
@@ -11,6 +12,7 @@ module.exports = {
     }
   },
   rules: {
+    'computed-property-readonly': require('./rules/computed-property-readonly'),
     'destructure': require('./rules/destructure'),
     'import': require('./rules/import'),
     'logger': require('./rules/logger'),
