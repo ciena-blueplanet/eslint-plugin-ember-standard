@@ -1,3 +1,8 @@
+# 0.0.11
+
+* **Added** new rule `computed-property-readonly` for ensuring computed properties are always readOnly or never readOnly.
+
+
 # 0.0.10
 
 * **Added** missing messages to `destructure` rule reporting, which fixes issues with plugin crashing in consuming context.
