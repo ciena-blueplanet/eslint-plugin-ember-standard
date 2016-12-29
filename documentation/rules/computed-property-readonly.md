@@ -1,7 +1,5 @@
 # computed-property-readonly
 
-> NOTE: Currently this rule does not work with [ember-computed-decorators](https://github.com/rwjblue/ember-computed-decorators)
-
 ## always
 
 When this rule is given the *always* option it will ensure that computed properties are ALWAYS readOnly.
@@ -29,6 +27,20 @@ export default Component.extend({
 })
 ```
 
+```js
+import Ember from 'ember'
+const {Component} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
+
+export default Component.extend({
+  @readOnly
+  @computed('bar')
+  foo (bar) {
+    return bar + '-baz'
+  }
+})
+```
+
 **Invalid**
 
 ```js
@@ -39,6 +51,19 @@ export default Component.extend({
   foo: computed('bar', function () {
     return this.get('bar') + '-baz'
   })
+})
+```
+
+```js
+import Ember from 'ember'
+const {Component} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
+
+export default Component.extend({
+  @computed('bar')
+  foo (bar) {
+    return bar + '-baz'
+  }
 })
 ```
 
@@ -69,6 +94,19 @@ export default Component.extend({
 })
 ```
 
+```js
+import Ember from 'ember'
+const {Component} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
+
+export default Component.extend({
+  @computed('bar')
+  foo (bar) {
+    return bar + '-baz'
+  }
+})
+```
+
 **Invalid**
 
 ```js
@@ -79,5 +117,19 @@ export default Component.extend({
   foo: computed('bar', function () {
     return this.get('bar') + '-baz'
   }).readOnly()
+})
+```
+
+```js
+import Ember from 'ember'
+const {Component} = Ember
+import computed, {readOnly} from 'ember-computed-decorators'
+
+export default Component.extend({
+  @readOnly
+  @computed('bar')
+  foo (bar) {
+    return bar + '-baz'
+  }
 })
 ```
