@@ -1,3 +1,9 @@
+/**
+ * Sort properties by name
+ * @param {ESLintNode} a - first property
+ * @param {ESLintNode} b - second property
+ * @returns {Number} number indicating sort order
+ */
 function propertySorter (a, b) {
   return a.key.name > b.key.name
 }

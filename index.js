@@ -2,10 +2,10 @@ module.exports = {
   configs: {
     'ember-standard': {
       rules: {
-        'ember-standard/computed-property-readonly': [2, "always"],
-        'ember-standard/destructure': [2, "always"],
-        'ember-standard/import': [2, "always"],
-        'ember-standard/logger': [2, "always"],
+        'ember-standard/computed-property-readonly': [2, 'always'],
+        'ember-standard/destructure': [2, 'always'],
+        'ember-standard/import': [2, 'always'],
+        'ember-standard/logger': [2, 'always'],
         'ember-standard/no-set-in-computed-property': 2,
         'ember-standard/no-settimeout': 2,
         'ember-standard/prop-types': 2,

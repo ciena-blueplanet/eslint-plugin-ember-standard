@@ -196,7 +196,7 @@ ruleTester.run('no-settimeout', rule, {
               'runna.later(this, () => {}, 100)\n' +
               'runna.later(this, () => {console.info("test")}, 321)',
       parser: 'babel-eslint'
-    },
+    }
   ],
   valid: [
     {

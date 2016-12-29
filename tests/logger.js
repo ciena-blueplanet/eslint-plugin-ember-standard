@@ -1,10 +1,28 @@
 var RuleTester = require('eslint').RuleTester
 var rule = require('../rules/logger')
 
+/**
+ * Create valid test with always option
+ * @param {String} code - code for test
+ * @returns {ESLintTestObject} test
+ */
 function validAlwaysTest (code) {
   return {
     code: code,
     options: ['always'],
+    parser: 'babel-eslint'
+  }
+}
+
+/**
+ * Create valid test with never option
+ * @param {String} code - code for test
+ * @returns {ESLintTestObject} test
+ */
+function validNeverTest (code) {
+  return {
+    code: code,
+    options: ['never'],
     parser: 'babel-eslint'
   }
 }
@@ -320,6 +338,60 @@ ruleTester.run('logger', rule, {
       options: ['always'],
       output: 'import Foo from "ember"; const {Logger: Logga} = Foo; Logga.warn("Test")',
       parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"\n' +
+            'Ember.Logger.warn("Test")',
+      errors: [
+        {
+          column: 1,
+          line: 2,
+          message: 'Use console instead of Ember.Logger',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['never'],
+      output: 'import Ember from "ember"\n' +
+              'console.warn("Test")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"\n' +
+            'const {Logger} = Ember\n' +
+            'Logger.warn("Test")',
+      errors: [
+        {
+          column: 1,
+          line: 3,
+          message: 'Use console instead of Logger',
+          type: 'Identifier'
+        }
+      ],
+      options: ['never'],
+      output: 'import Ember from "ember"\n' +
+              'const {Logger} = Ember\n' +
+              'console.warn("Test")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"\n' +
+            'const {Component, Logger} = Ember\n' +
+            'Logger.warn("Test")\n' +
+            'export default Component.extend({})',
+      errors: [
+        {
+          column: 1,
+          line: 3,
+          message: 'Use console instead of Logger',
+          type: 'Identifier'
+        }
+      ],
+      options: ['never'],
+      output: 'import Ember from "ember"\n' +
+              'const {Component, Logger} = Ember\n' +
+              'console.warn("Test")\n' +
+              'export default Component.extend({})',
+      parser: 'babel-eslint'
     }
   ],
   valid: [
@@ -334,5 +406,10 @@ ruleTester.run('logger', rule, {
     validAlwaysTest('import Ember from "ember"; const {Logger} = Ember; Logger.info("Test")'),
     validAlwaysTest('import Foo from "ember"; const {Logger} = Foo; Logger.info("Test")'),
     validAlwaysTest('import Ember from "ember"; console.clear()'),
+    validNeverTest('console.info("Test")'),
+    validNeverTest('import Ember from "ember"; console.info("Test")'),
+    validNeverTest('import Ember from "ember"; const {Logger} = Ember; console.info("Test")'),
+    validNeverTest('import Foo from "ember"; console.info("Test")'),
+    validNeverTest('import Foo from "ember"; const {Logger} = Foo; console.info("Test")')
   ]
 })

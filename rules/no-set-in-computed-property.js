@@ -1,7 +1,7 @@
 /**
  * Get start location of computed property (or null if not a CP)
  * @param {ESLintNode} node - call expression node
- * @param {String} setVarName - destructured variable name for Ember.computed
+ * @param {String} computedVarName - destructured variable name for Ember.computed
  * @returns {Number} start location of computed property (or null if not a CP)
  */
 function getComputedPropertyStart (node, computedVarName) {

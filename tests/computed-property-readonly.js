@@ -506,7 +506,7 @@ ruleTester.run('computed-property-readonly', rule, {
               '  }\n' +
               '})',
       parser: 'babel-eslint'
-    },
+    }
   ],
   valid: [
     {

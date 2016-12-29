@@ -1,6 +1,11 @@
 var RuleTester = require('eslint').RuleTester
 var rule = require('../rules/destructure')
 
+/**
+ * Create valid test with always option
+ * @param {String} code - code for test
+ * @returns {ESLintTestObject} test
+ */
 function validAlwaysTest (code) {
   return {
     code: code,
@@ -9,6 +14,11 @@ function validAlwaysTest (code) {
   }
 }
 
+/**
+ * Create valid test with never option
+ * @param {String} code - code for test
+ * @returns {ESLintTestObject} test
+ */
 function validNeverTest (code) {
   return {
     code: code,

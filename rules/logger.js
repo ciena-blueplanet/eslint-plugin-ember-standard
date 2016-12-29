@@ -7,6 +7,108 @@ var VALID_LOGGER_METHODS = [
   'warn'
 ]
 
+/**
+ * Determine if call expression is a console call that can be converted to a
+ * Ember.Logger call
+ * @param {ESLintNode} node - call expression node
+ * @returns {Boolean} whether or not console call
+ */
+function isConsolePropertyCall (node) {
+  return (
+    node.callee.object &&
+    node.callee.object.name === 'console' &&
+    VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
+  )
+}
+
+/**
+ * Determine if call expression is a destructured Ember.Logger call that can be
+ * converted to a console call
+ * @param {ESLintNode} node - call expression node
+ * @param {String} loggerVarName - variable name for Ember.Logger
+ * @returns {Boolean} whether or not destructured Ember.Logger call
+ */
+function isDestructuredLoggerPropertyCall (node, loggerVarName) {
+  return (
+    node.callee.object &&
+    node.callee.object.name === loggerVarName &&
+    VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
+  )
+}
+
+/**
+ * Determine if call expression is a structured Ember.Logger call that can be
+ * converted to a console call
+ * @param {ESLintNode} node - call expression node
+ * @param {String} emberVarName - variable name for Ember
+ * @returns {Boolean} whether or not structured Ember.Logger call
+ */
+function isStructuredLoggerPropertyCall (node, emberVarName) {
+  return (
+    node.callee.object &&
+    node.callee.object.object &&
+    node.callee.object.object.name === emberVarName &&
+    node.callee.object.property.name === 'Logger' &&
+    VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
+  )
+
+  // TODO: check if parent object is emberVarName
+}
+
+/**
+ * Report that console should be used instead of destructured Ember.Logger
+ * @param {ESLintContext} context - test context
+ * @param {ESLintNode} node - call expression node
+ * @param {String} loggerVarName - variable name for Ember.Logger
+ */
+function reportUseConsoleInsteadOfDestructuredLogger (context, node, loggerVarName) {
+  context.report({
+    fix: function (fixer) {
+      return fixer.replaceText(node.callee.object, 'console')
+    },
+    message: 'Use console instead of ' + loggerVarName,
+    node: node.callee.object
+  })
+}
+
+/**
+ * Report that console should be used instead of structured Ember.Logger
+ * @param {ESLintContext} context - test context
+ * @param {ESLintNode} node - call expression node
+ * @param {String} emberVarName - variable name for Ember
+ * @param {String} loggerVarName - variable name for Ember.Logger
+ */
+function reportUseConsoleInsteadOfStructuredLogger (context, node, emberVarName, loggerVarName) {
+  var current = loggerVarName || emberVarName + '.Logger'
+
+  context.report({
+    fix: function (fixer) {
+      return fixer.replaceText(node.callee.object, 'console')
+    },
+    message: 'Use console instead of ' + current,
+    node: node.callee.object
+  })
+}
+
+/**
+ * Report that Ember.Logger should be used instead of console
+ * @param {ESLintContext} context - test context
+ * @param {ESLintNode} node - call expression node
+ * @param {String} emberVarName - variable name for Ember
+ * @param {String} loggerVarName - variable name for Ember.Logger
+ */
+function reportUseLoggerInsteadOfConsole (context, node, emberVarName, loggerVarName) {
+  var replacement = loggerVarName || emberVarName + '.Logger'
+
+  context.report({
+    fix: function (fixer) {
+      return fixer.replaceText(node.callee.object, replacement)
+    },
+    message: 'Use ' + replacement + ' instead of console',
+    node: node.callee.object
+  })
+}
+
 module.exports = {
   create: function (context) {
     var emberVarName = null
@@ -21,22 +123,21 @@ module.exports = {
        * @param {ESLintNode} node - call expression node
        */
       CallExpression: function (node) {
-        if (
-          emberVarName &&
-          node.callee.object &&
-          node.callee.object.name === 'console' &&
-          VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
-        ) {
-          var propertyName = node.callee.property.name
-          var replacement = loggerVarName || emberVarName + '.Logger'
+        if (!isNever) {
+          if (emberVarName && isConsolePropertyCall(node)) {
+            reportUseLoggerInsteadOfConsole(context, node, emberVarName, loggerVarName)
+          }
 
-          context.report({
-            fix: function (fixer) {
-              return fixer.replaceText(node.callee.object, replacement)
-            },
-            message: 'Use ' + replacement + ' instead of console',
-            node: node.callee.object
-          })
+          return
+        }
+
+        if (isStructuredLoggerPropertyCall(node, emberVarName)) {
+          reportUseConsoleInsteadOfStructuredLogger(context, node, emberVarName, loggerVarName)
+          return
+        }
+
+        if (isDestructuredLoggerPropertyCall(node, loggerVarName)) {
+          reportUseConsoleInsteadOfDestructuredLogger(context, node, loggerVarName)
         }
       },
 
