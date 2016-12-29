@@ -1,3 +1,9 @@
+# 0.0.15
+
+* **Added** stricter ESLint rules to this project to force use of JSDoc comments everywhere, ensure JSDoc comments are valid, prevent methods with a complexity over 5, and prevent lines longer than 120 characters. This included cleaning up the codebase to comply with these stricter rules.
+* **Fixed** `logger` rule to work with `never` option.
+
+
 # 0.0.14
 
 * **Added** `prop-types` rule to validate `PropTypes` from `ember-prop-types`.
