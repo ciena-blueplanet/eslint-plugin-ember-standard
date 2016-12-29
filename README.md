@@ -26,6 +26,7 @@ npm install --save-dev eslint-plugin-ember-standard
 
 *   [no-set-in-computed-property](documentation/rules/no-set-in-computed-property.md) – Prevent side effects.
 * [no-settimeout](documentation/rules/no-settimeout.md) – Make run loop aware of timeouts.
+* [prop-types](documentation/rules/prop-types.md) – Make sure `PropTypes` references are valid.
 
 ### Best Practices
 
