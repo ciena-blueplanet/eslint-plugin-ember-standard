@@ -1,5 +1,7 @@
 # computed-property-readonly
 
+> NOTE: Currently this rule does not work with [ember-computed-decorators](https://github.com/rwjblue/ember-computed-decorators)
+
 ## always
 
 When this rule is given the *always* option it will ensure that computed properties are ALWAYS readOnly.
