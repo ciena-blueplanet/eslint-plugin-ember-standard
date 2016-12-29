@@ -1,3 +1,8 @@
+# 0.0.14
+
+* **Added** `prop-types` rule to validate `PropTypes` from `ember-prop-types`.
+
+
 # 0.0.13
 
 * **Added** `no-settimeout` rule to ensure no calls to `setTimeout()` are made.
