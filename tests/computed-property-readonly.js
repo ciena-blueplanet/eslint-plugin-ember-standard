@@ -452,7 +452,61 @@ ruleTester.run('computed-property-readonly', rule, {
               '  foo: computed.alias("bar")\n' +
               '})',
       parser: 'babel-eslint'
-    }
+    },
+    {
+      code: 'import computed, {readOnly} from "ember-computed-decorators"\n' +
+            'export default Ember.Component.extend({\n' +
+            '  @computed("bar")\n' +
+            '  foo (bar) {\n' +
+            '    return "baz"\n' +
+            '  }\n' +
+            '})',
+      errors: [
+        {
+          column: 3,
+          line: 4,
+          message: 'Computed property should be readOnly',
+          type: 'Property'
+        }
+      ],
+      options: ['always'],
+      output: 'import computed, {readOnly} from "ember-computed-decorators"\n' +
+              'export default Ember.Component.extend({\n' +
+              '  @readOnly\n' +
+              '  @computed("bar")\n' +
+              '  foo (bar) {\n' +
+              '    return "baz"\n' +
+              '  }\n' +
+              '})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import computed, {readOnly} from "ember-computed-decorators"\n' +
+            'export default Ember.Component.extend({\n' +
+            '  @readOnly\n' +
+            '  @computed("bar")\n' +
+            '  foo (bar) {\n' +
+            '    return "baz"\n' +
+            '  }\n' +
+            '})',
+      errors: [
+        {
+          column: 3,
+          line: 3,
+          message: 'Computed property should not be readOnly',
+          type: 'Decorator'
+        }
+      ],
+      options: ['never'],
+      output: 'import computed, {readOnly} from "ember-computed-decorators"\n' +
+              'export default Ember.Component.extend({\n' +
+              '  @computed("bar")\n' +
+              '  foo (bar) {\n' +
+              '    return "baz"\n' +
+              '  }\n' +
+              '})',
+      parser: 'babel-eslint'
+    },
   ],
   valid: [
     {
@@ -763,13 +817,36 @@ ruleTester.run('computed-property-readonly', rule, {
       parser: 'babel-eslint'
     },
     {
-      code: 'import Foo from "from"\n' +
+      code: 'import Foo from "foo"\n' +
             'export default Ember.Component.extend({\n' +
             '  foo: Ember.computed("bar", function () {\n' +
             '    return "baz"\n' +
             '  }).readOnly()\n' +
             '})',
       options: ['always'],
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import computed, {readOnly} from "ember-computed-decorators"\n' +
+            'export default Ember.Component.extend({\n' +
+            '  @readOnly\n' +
+            '  @computed("bar")\n' +
+            '  foo (bar) {\n' +
+            '    return "baz"\n' +
+            '  }\n' +
+            '})',
+      options: ['always'],
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import computed, {readOnly} from "ember-computed-decorators"\n' +
+            'export default Ember.Component.extend({\n' +
+            '  @computed("bar")\n' +
+            '  foo (bar) {\n' +
+            '    return "baz"\n' +
+            '  }\n' +
+            '})',
+      options: ['never'],
       parser: 'babel-eslint'
     }
   ]
