@@ -1,5 +1,7 @@
 # prop-types
 
+This rule ensures `PropTypes` are valid given the API provided by [ember-prop-types](http://ciena-blueplanet.github.io/ember-prop-types/).
+
 **Valid**
 
 ```js
