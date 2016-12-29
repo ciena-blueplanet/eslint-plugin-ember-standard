@@ -7,6 +7,7 @@ module.exports = {
         'ember-standard/import': [2, "always"],
         'ember-standard/logger': [2, "always"],
         'ember-standard/no-set-in-computed-property': 2,
+        'ember-standard/no-settimeout': 2,
         'ember-standard/single-destructure': 2
       }
     }
@@ -17,6 +18,7 @@ module.exports = {
     'import': require('./rules/import'),
     'logger': require('./rules/logger'),
     'no-set-in-computed-property': require('./rules/no-set-in-computed-property'),
+    'no-settimeout': require('./rules/no-settimeout'),
     'single-destructure': require('./rules/single-destructure')
   }
 }
