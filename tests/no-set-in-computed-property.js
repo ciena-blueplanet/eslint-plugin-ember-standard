@@ -129,7 +129,7 @@ ruleTester.run('no-set-in-computed-property', rule, {
       '  @computed("bar")\n' +
       '  foo (bar) {\n' +
       '    set(this, "baz", "spam")\n' +
-      '    return `${bar}-test`\n' +
+      '    return bar + "-test"\n' +
       '  }\n' +
       '})',
       7
@@ -143,7 +143,7 @@ ruleTester.run('no-set-in-computed-property', rule, {
       '  @computed("bar")\n' +
       '  foo (bar) {\n' +
       '    set(this, "baz", "spam")\n' +
-      '    return `${bar}-test`\n' +
+      '    return bar + "-test"\n' +
       '  }\n' +
       '})',
       8
@@ -156,7 +156,7 @@ ruleTester.run('no-set-in-computed-property', rule, {
       '  @computed("bar")\n' +
       '  foo (bar) {\n' +
       '    this.set("baz", "spam")\n' +
-      '    return `${bar}-test`\n' +
+      '    return bar + "-test"\n' +
       '  }\n' +
       '})',
       7
@@ -170,7 +170,7 @@ ruleTester.run('no-set-in-computed-property', rule, {
       '  @computed("bar")\n' +
       '  foo (bar) {\n' +
       '    this.set("baz", "spam")\n' +
-      '    return `${bar}-test`\n' +
+      '    return bar + "-test"\n' +
       '  }\n' +
       '})',
       8

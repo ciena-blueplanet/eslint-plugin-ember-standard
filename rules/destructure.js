@@ -84,9 +84,8 @@ module.exports = {
 
         // Add destructured properties to existing Ember destructure variable declarator
         if (emberDestructureVariableDeclarator) {
-          var lastProperty = emberDestructureVariableDeclarator.id.properties[
-            emberDestructureVariableDeclarator.id.properties.length - 1
-          ]
+          var lastProperty = emberDestructureVariableDeclarator.id
+            .properties[emberDestructureVariableDeclarator.id.properties.length - 1]
 
           context.report({
             fix: function (fixer) {

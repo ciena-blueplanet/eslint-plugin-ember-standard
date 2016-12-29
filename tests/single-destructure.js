@@ -84,7 +84,6 @@ ruleTester.run('single-destructure', rule, {
       output: 'import Foo from "ember";\nconst {Component, Logger} = Foo;\n',
       parser: 'babel-eslint'
     },
-    ,
     {
       code: 'import Foo from "ember";\nconst {Component} = Foo;\nconst {Logger} = Foo;\nconst {A} = Foo',
       errors: [

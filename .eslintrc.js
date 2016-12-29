@@ -1,3 +1,6 @@
 module.exports = {
-  config: ['standard']
+  extends: ['standard'],
+  rules: {
+    complexity: [2, 5]
+  }
 }
