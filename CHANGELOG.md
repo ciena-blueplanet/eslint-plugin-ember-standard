@@ -1,3 +1,8 @@
+# 0.0.13
+
+* **Added** `no-settimeout` rule to ensure no calls to `setTimeout()` are made.
+
+
 # 0.0.12
 
 * **Fixed** `computed-property-readonly` rule to support [ember-computed-decorators](https://github.com/rwjblue/ember-computed-decorators).
