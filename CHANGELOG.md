@@ -1,3 +1,8 @@
+# 0.0.12
+
+* **Fixed** `computed-property-readonly` rule to support [ember-computed-decorators](https://github.com/rwjblue/ember-computed-decorators).
+
+
 # 0.0.11
 
 * **Added** new rule `computed-property-readonly` for ensuring computed properties are always readOnly or never readOnly.
