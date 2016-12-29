@@ -1,6 +1,12 @@
 var RuleTester = require('eslint').RuleTester
 var rule = require('../rules/no-set-in-computed-property')
 
+/**
+ * Create invalid test with always option
+ * @param {String} code - code for test
+ * @param {Number} line - line error is on
+ * @returns {ESLintTestObject} test
+ */
 function invalidAlwaysTest (code, line) {
   return {
     code: code,
@@ -16,6 +22,11 @@ function invalidAlwaysTest (code, line) {
   }
 }
 
+/**
+ * Create valid test with always option
+ * @param {String} code - code for test
+ * @returns {ESLintTestObject} test
+ */
 function validAlwaysTest (code) {
   return {
     code: code,

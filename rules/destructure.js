@@ -3,6 +3,11 @@ var reservedNames = [
   'String'
 ]
 
+/**
+ * Captialize string by uppercasing first character
+ * @param {String} string - string to captialize
+ * @returns {String} capitalized string
+ */
 function capitalize (string) {
   return string[0].toUpperCase() + string.split('').slice(1).join('')
 }

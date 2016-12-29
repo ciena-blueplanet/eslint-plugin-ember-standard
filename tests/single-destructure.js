@@ -1,6 +1,11 @@
 var RuleTester = require('eslint').RuleTester
 var rule = require('../rules/single-destructure')
 
+/**
+ * Create valid test
+ * @param {String} code - code for test
+ * @returns {ESLintTestObject} test
+ */
 function validTest (code) {
   return {
     code: code,
@@ -145,7 +150,8 @@ ruleTester.run('single-destructure', rule, {
       parser: 'babel-eslint'
     },
     {
-      code: 'import Ember from "ember"; const {Logger: Log1} = Ember; const {Logger: Log2} = Ember; Log1.info("Test"); Log2.info("Test")',
+      code: 'import Ember from "ember"; const {Logger: Log1} = Ember; const {Logger: Log2} = Ember;' +
+            ' Log1.info("Test"); Log2.info("Test")',
       errors: [
         {
           column: 64,

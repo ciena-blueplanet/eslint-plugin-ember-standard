@@ -1,3 +1,8 @@
+/**
+ * Validate basic property
+ * @param {ESLintContext} context - test context
+ * @param {ESLintNode} node - member expression node
+ */
 function basicPropertyValidator (context, node) {
   if (
     node.parent.type === 'CallExpression' &&
@@ -10,6 +15,12 @@ function basicPropertyValidator (context, node) {
   }
 }
 
+/**
+ * Validate function call property that expects one argument
+ * @param {ESLintContext} context - test context
+ * @param {ESLintNode} node - member expression node
+ * @returns {Boolean} whether or not an error was found
+ */
 function functionWithOneArgValidator (context, node) {
   if (
     node.parent.type !== 'CallExpression' ||
@@ -35,6 +46,11 @@ function functionWithOneArgValidator (context, node) {
   return false
 }
 
+/**
+ * Validate function call property that expects one array argument
+ * @param {ESLintContext} context - test context
+ * @param {ESLintNode} node - member expression node
+ */
 function functionWithArrayArgValidator (context, node) {
   if (functionWithOneArgValidator(context, node)) {
     return
@@ -48,6 +64,11 @@ function functionWithArrayArgValidator (context, node) {
   }
 }
 
+/**
+ * Validate function call property that expects one object argument
+ * @param {ESLintContext} context - test context
+ * @param {ESLintNode} node - member expression node
+ */
 function functionWithObjectArgValidator (context, node) {
   if (functionWithOneArgValidator(context, node)) {
     return
@@ -107,6 +128,7 @@ module.exports = {
           node: node.property
         })
       },
+
       /**
        * Get PropTypes variable name from import statement
        * @example `import {PropTypes} from 'ember-prop-types'` would yield "PropTypes"
