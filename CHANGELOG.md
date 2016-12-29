@@ -1,3 +1,8 @@
+# 0.0.10
+
+* **Added** missing messages to `destructure` rule reporting, which fixes issues with plugin crashing in consuming context.
+
+
 # 0.0.9
 
 * **Added** fixable functionality to `destructure` rule.
