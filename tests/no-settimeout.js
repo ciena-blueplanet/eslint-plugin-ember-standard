@@ -134,7 +134,69 @@ ruleTester.run('no-settimeout', rule, {
               'runna.later(this, () => {}, 100)\n' +
               'runna.later(this, () => {console.info("test")}, 321)',
       parser: 'babel-eslint'
-    }
+    },
+    {
+      code: 'import Ember from "ember"\n' +
+            'import run from "run"\n' +
+            'setTimeout(() => {}, 100)',
+      errors: [
+        {
+          column: 1,
+          line: 3,
+          message: 'Use Ember.run.later instead of setTimeout',
+          type: 'CallExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember"\n' +
+              'import run from "run"\n' +
+              'Ember.run.later(this, () => {}, 100)',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"\n' +
+            'const run = "test"\n' +
+            'setTimeout(() => {}, 100)',
+      errors: [
+        {
+          column: 1,
+          line: 3,
+          message: 'Use Ember.run.later instead of setTimeout',
+          type: 'CallExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember"\n' +
+              'const run = "test"\n' +
+              'Ember.run.later(this, () => {}, 100)',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Foo from "ember"\n' +
+            'const {Logger, run: runna} = Foo\n' +
+            'setTimeout(() => {}, 100)\n' +
+            'setTimeout(() => {console.info("test")}, 321)',
+      errors: [
+        {
+          column: 1,
+          line: 3,
+          message: 'Use runna.later instead of setTimeout',
+          type: 'CallExpression'
+        },
+        {
+          column: 1,
+          line: 4,
+          message: 'Use runna.later instead of setTimeout',
+          type: 'CallExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Foo from "ember"\n' +
+              'const {Logger, run: runna} = Foo\n' +
+              'runna.later(this, () => {}, 100)\n' +
+              'runna.later(this, () => {console.info("test")}, 321)',
+      parser: 'babel-eslint'
+    },
   ],
   valid: [
     {
