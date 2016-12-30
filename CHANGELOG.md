@@ -1,3 +1,8 @@
+# 0.0.16
+
+* **Fixed** `no-set-in-computed-property` rule to work with [ember-computed-decorators](https://github.com/rwjblue/ember-computed-decorators).
+
+
 # 0.0.15
 
 * **Added** stricter ESLint rules to this project to force use of JSDoc comments everywhere, ensure JSDoc comments are valid, prevent methods with a complexity over 5, and prevent lines longer than 120 characters. This included cleaning up the codebase to comply with these stricter rules.
