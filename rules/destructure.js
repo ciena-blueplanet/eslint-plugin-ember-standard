@@ -97,7 +97,7 @@ module.exports = {
               return fixer.insertTextAfter(lastProperty, ', ' + textToInsert)
             },
             message: message,
-            node: emberDestructureVariableDeclarator
+            node: emberDestructureVariableDeclarator.parent
           })
 
         // Since there is no Ember destructure variable declarator add one after import
