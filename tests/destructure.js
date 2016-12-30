@@ -672,10 +672,10 @@ ruleTester.run('destructure', rule, {
       code: 'const {A} = Ember; const bar = Ember.MODEL_FACTORY_INJECTIONS',
       errors: [
         {
-          column: 7,
+          column: 1,
           line: 1,
           message: 'The following need destructured: MODEL_FACTORY_INJECTIONS',
-          type: 'VariableDeclarator'
+          type: 'VariableDeclaration'
         },
         {
           column: 32,

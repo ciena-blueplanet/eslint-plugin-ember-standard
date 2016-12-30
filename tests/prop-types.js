@@ -759,6 +759,30 @@ ruleTester.run('prop-types', rule, {
             '  }\n' +
             '})',
       parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"\n' +
+            'const {Component} = Ember\n' +
+            'const bar = ["baz", "spam"]\n' +
+            'import PropTypeMixin, {PropTypes} from "ember-prop-types"\n' +
+            'export default Component.extend(PropTypeMixin, {\n' +
+            '  propTypes: {\n' +
+            '    foo: PropTypes.oneOf(bar)\n' +
+            '  }\n' +
+            '})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"\n' +
+            'const {Component} = Ember\n' +
+            'const bar = ["baz", "spam"]\n' +
+            'import PropTypeMixin, {PropTypes} from "ember-prop-types"\n' +
+            'export default Component.extend(PropTypeMixin, {\n' +
+            '  propTypes: {\n' +
+            '    foo: PropTypes.shape(bar)\n' +
+            '  }\n' +
+            '})',
+      parser: 'babel-eslint'
     }
   ]
 })

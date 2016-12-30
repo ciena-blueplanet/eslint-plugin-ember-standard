@@ -56,7 +56,12 @@ function functionWithArrayArgValidator (context, node) {
     return
   }
 
-  if (node.parent.arguments[0].type !== 'ArrayExpression') {
+  var validTypes = [
+    'ArrayExpression', // Allow inline array
+    'Identifier' // Allow a variable reference
+  ]
+
+  if (validTypes.indexOf(node.parent.arguments[0].type) === -1) {
     context.report({
       message: 'argument should be an array expression',
       node: node.parent.arguments[0]
@@ -74,7 +79,12 @@ function functionWithObjectArgValidator (context, node) {
     return
   }
 
-  if (node.parent.arguments[0].type !== 'ObjectExpression') {
+  var validTypes = [
+    'Identifier', // Allow a variable reference
+    'ObjectExpression' // Allow inline array
+  ]
+
+  if (validTypes.indexOf(node.parent.arguments[0].type) === -1) {
     context.report({
       message: 'argument should be an object expression',
       node: node.parent.arguments[0]
