@@ -1,21 +1,49 @@
 /**
- * Get start location of computed property (or null if not a CP)
+ * Determine if call expression is part of a computed property
+ * @example `foo: Ember.computed('a', function () {})`
+ * @example `foo: computed('a', function () {})`
  * @param {ESLintNode} node - call expression node
  * @param {String} computedVarName - destructured variable name for Ember.computed
- * @returns {Number} start location of computed property (or null if not a CP)
+ * @returns {Boolean} whether or not call expression is part of a computed property
  */
-function getComputedPropertyStart (node, computedVarName) {
-  var isStructuredComputedProperyCall = (
-    node.callee.property && node.callee.property.name === 'computed'
-  )
-
-  var isUnstructuredComputedPropertyCall = node.callee.name === computedVarName
-
-  if (isStructuredComputedProperyCall || isUnstructuredComputedPropertyCall) {
-    return node.start
+function isComputedProperty (node, computedVarName) {
+  if (!node.parent || !node.parent.callee) {
+    return false
   }
 
-  return null
+  var isStructuredComputedProperyCall = (
+    node.parent.callee.property && node.parent.callee.property.name === 'computed'
+  )
+
+  var isUnstructuredComputedPropertyCall = node.parent.callee.name === computedVarName
+
+  return isStructuredComputedProperyCall || isUnstructuredComputedPropertyCall
+}
+
+/**
+ * Determine if call expression is part of a decorator computed property
+ * @example
+ *   ```
+ *   @computed('bar')
+ *   foo (bar) {}
+ *   ```
+ * @param {ESLintNode} node - call expression node
+ * @param {String} computedDecoratorVarName - imported default for ember-computed-decorators
+ * @returns {Boolean} whether or not call expression is part of a decorator CP
+ */
+function isDecoratorComputedProperty (node, computedDecoratorVarName) {
+  if (!node.parent || !node.parent.decorators) {
+    return false
+  }
+
+  return node.parent.decorators
+    .some(function (decorator) {
+      return (
+        decorator.expression &&
+        decorator.expression.callee &&
+        decorator.expression.callee.name === computedDecoratorVarName
+      )
+    })
 }
 
 /**
@@ -42,37 +70,47 @@ function isSetCall (node, setVarName, emberVarName) {
 
 module.exports = {
   create: function (context) {
+    var computedDecoratorVarName = null
     var computedVarName = null
-    var currentComputedPropertyStart = null
+    var currentComputedProperty = null
     var emberVarName = 'Ember'
     var setVarName = null
 
     return {
       /**
-       * Determine if we are entering a computed property or if a set call is
-       * being made while we are within a computed property
+       * Determine if a set call is being made while we are within a computed
+       * property
        * @param {ESLintNode} node - call expression node
        */
       CallExpression: function (node) {
-        var cpStart = getComputedPropertyStart(node, computedVarName)
-
-        if (cpStart) {
-          currentComputedPropertyStart = cpStart
-          return
-        }
-
-        if (isSetCall(node, setVarName, emberVarName)) {
+        if (
+          currentComputedProperty &&
+          isSetCall(node, setVarName, emberVarName)
+        ) {
           context.report(node, 'Do not call this.set() or Ember.set() in a computed property')
         }
       },
 
       /**
-       * Determine if we are leaving a computed property
-       * @param {ESLintNode} node - call expression node
+       * Determine if we are entering a computed property
+       * @param {ESLintNode} node - function expression node
        */
-      'CallExpression:exit': function (node) {
-        if (node.start === currentComputedPropertyStart) {
-          currentComputedPropertyStart = null
+      FunctionExpression: function (node) {
+        if (
+          isComputedProperty(node, computedVarName) ||
+          isDecoratorComputedProperty(node, computedDecoratorVarName)
+        ) {
+          currentComputedProperty = node
+        }
+      },
+
+      /**
+       * Determine if we are leaving a computed property
+       * @param {ESLintNode} node - function expression node
+       */
+      'FunctionExpression:exit': function (node) {
+        if (node === currentComputedProperty) {
+          currentComputedProperty = null
         }
       },
 
@@ -83,8 +121,14 @@ module.exports = {
        * @param {ESLintNode} node - import declaration node
        */
       ImportDeclaration: function (node) {
-        if (node.source.value === 'ember') {
-          emberVarName = node.specifiers[0].local.name
+        switch (node.source.value) {
+          case 'ember':
+            emberVarName = node.specifiers[0].local.name
+            break
+
+          case 'ember-computed-decorators':
+            computedDecoratorVarName = node.specifiers[0].local.name
+            break
         }
       },
 

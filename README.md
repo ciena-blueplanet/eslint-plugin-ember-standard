@@ -1,5 +1,7 @@
 # eslint-plugin-ember-standard
 
+ESlint rules for Ember projects.
+
 ###### Dependencies
 
 ![Node][node-img]
