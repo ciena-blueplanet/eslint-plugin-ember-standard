@@ -1,3 +1,8 @@
+# 0.0.18
+
+* **Fixed** `prop-types` rule to allow argument in property methods to be a variable reference.
+
+
 # 0.0.17
 
 * **Fixed** `computed-property-rule` to import `readOnly` from `ember-computed-decorators` when it adds it to the code as well as handle import/destructure variable names better.
