@@ -1,3 +1,8 @@
+# 0.0.17
+
+* **Fixed** `computed-property-rule` to import `readOnly` from `ember-computed-decorators` when it adds it to the code as well as handle import/destructure variable names better.
+
+
 # 0.0.16
 
 * **Fixed** `no-set-in-computed-property` rule to work with [ember-computed-decorators](https://github.com/rwjblue/ember-computed-decorators).
