@@ -482,7 +482,8 @@ ruleTester.run('computed-property-readonly', rule, {
     },
     {
       code: 'import computed, {readOnly} from "ember-computed-decorators"\n' +
-            'export default Ember.Component.extend({\n' +
+            'const {Component} = Ember\n' +
+            'export default Component.extend({\n' +
             '  @readOnly\n' +
             '  @computed("bar")\n' +
             '  foo (bar) {\n' +
@@ -492,14 +493,81 @@ ruleTester.run('computed-property-readonly', rule, {
       errors: [
         {
           column: 3,
-          line: 3,
+          line: 4,
           message: 'Computed property should not be readOnly',
           type: 'Decorator'
         }
       ],
       options: ['never'],
       output: 'import computed, {readOnly} from "ember-computed-decorators"\n' +
+              'const {Component} = Ember\n' +
+              'export default Component.extend({\n' +
+              '  @computed("bar")\n' +
+              '  foo (bar) {\n' +
+              '    return "baz"\n' +
+              '  }\n' +
+              '})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import computed from "ember-computed-decorators"\n' +
+            'export default Ember.Component.extend({\n' +
+            '  @computed("bar")\n' +
+            '  foo (bar) {\n' +
+            '    return "baz"\n' +
+            '  }\n' +
+            '})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          message: 'Needs to import readOnly',
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 3,
+          line: 4,
+          message: 'Computed property should be readOnly',
+          type: 'Property'
+        }
+      ],
+      options: ['always'],
+      output: 'import computed, {readOnly} from "ember-computed-decorators"\n' +
               'export default Ember.Component.extend({\n' +
+              '  @readOnly\n' +
+              '  @computed("bar")\n' +
+              '  foo (bar) {\n' +
+              '    return "baz"\n' +
+              '  }\n' +
+              '})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import computed, {alias} from "ember-computed-decorators"\n' +
+            'export default Ember.Component.extend({\n' +
+            '  @computed("bar")\n' +
+            '  foo (bar) {\n' +
+            '    return "baz"\n' +
+            '  }\n' +
+            '})',
+      errors: [
+        {
+          column: 1,
+          line: 1,
+          message: 'Needs to import readOnly',
+          type: 'ImportDeclaration'
+        },
+        {
+          column: 3,
+          line: 4,
+          message: 'Computed property should be readOnly',
+          type: 'Property'
+        }
+      ],
+      options: ['always'],
+      output: 'import computed, {alias, readOnly} from "ember-computed-decorators"\n' +
+              'export default Ember.Component.extend({\n' +
+              '  @readOnly\n' +
               '  @computed("bar")\n' +
               '  foo (bar) {\n' +
               '    return "baz"\n' +
