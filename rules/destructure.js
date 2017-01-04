@@ -3,15 +3,6 @@ var reservedNames = [
   'String'
 ]
 
-/**
- * Captialize string by uppercasing first character
- * @param {String} string - string to captialize
- * @returns {String} capitalized string
- */
-function capitalize (string) {
-  return string[0].toUpperCase() + string.split('').slice(1).join('')
-}
-
 module.exports = {
   create: function (context) {
     var emberDestructureVariableDeclarator = null
@@ -45,19 +36,17 @@ module.exports = {
           node.object.name === emberVarName &&
           node.parent.type !== 'AssignmentExpression'
         ) {
+          if (reservedNames.indexOf(node.property.name) !== -1) {
+            return
+          }
+
           if (propertiesToDestructure.indexOf(node.property.name) === -1) {
             propertiesToDestructure.push(node.property.name)
           }
 
           context.report({
             fix: function (fixer) {
-              var name = node.property.name
-
-              if (reservedNames.indexOf(name) !== -1) {
-                name = 'Ember' + capitalize(name)
-              }
-
-              return fixer.replaceText(node, name)
+              return fixer.replaceText(node, node.property.name)
             },
             message: emberVarName + '.' + node.property.name + ' should be destructured',
             node: node
@@ -78,13 +67,6 @@ module.exports = {
 
         var textToInsert = propertiesToDestructure
           .sort()
-          .map(function (propertyName) {
-            if (reservedNames.indexOf(propertyName) !== -1) {
-              return propertyName + ': Ember' + capitalize(propertyName)
-            }
-
-            return propertyName
-          })
           .join(', ')
 
         // Add destructured properties to existing Ember destructure variable declarator
