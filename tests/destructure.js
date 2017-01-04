@@ -331,6 +331,42 @@ ruleTester.run('destructure', rule, {
               'Logger.info("Test2")',
       parser: 'babel-eslint'
     },
+    {
+      code: 'import Ember from "ember"\n' +
+            'const {Logger} = Ember\n' +
+            'Ember.Logger.info("Test")',
+      errors: [
+        {
+          column: 1,
+          line: 3,
+          message: 'Ember.Logger should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember"\n' +
+              'const {Logger} = Ember\n' +
+              'Logger.info("Test")',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import Ember from "ember"\n' +
+            'const {Logger: Logga} = Ember\n' +
+            'Ember.Logger.info("Test")',
+      errors: [
+        {
+          column: 1,
+          line: 3,
+          message: 'Ember.Logger should be destructured',
+          type: 'MemberExpression'
+        }
+      ],
+      options: ['always'],
+      output: 'import Ember from "ember"\n' +
+              'const {Logger: Logga} = Ember\n' +
+              'Logga.info("Test")',
+      parser: 'babel-eslint'
+    },
 
     // Destructuring when rule is set to "never"
     {

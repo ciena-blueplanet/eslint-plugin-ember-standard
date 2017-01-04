@@ -3,6 +3,70 @@ var reservedNames = [
   'String'
 ]
 
+/**
+ * Report that Ember property should be destructured
+ * @param {ESLintContext} context - context
+ * @param {ESLintNode} node - member expression node
+ * @param {String} emberVarName - variable name for Ember
+ * @param {ESLintNode} emberDestructureVariableDeclarator - variable declarator node
+ */
+function reportEmberPropertyShouldBeDestructured (context, node, emberVarName, emberDestructureVariableDeclarator) {
+  var replacement = node.property.name
+
+  if (emberDestructureVariableDeclarator) {
+    emberDestructureVariableDeclarator.id.properties
+      .forEach(function (property) {
+        if (property.key.name === node.property.name) {
+          replacement = property.value.name
+        }
+      })
+  }
+
+  context.report({
+    fix: function (fixer) {
+      return fixer.replaceText(node, replacement)
+    },
+    message: emberVarName + '.' + node.property.name + ' should be destructured',
+    node: node
+  })
+}
+
+/**
+ * Report that Ember should not be destructured
+ * @param {ESLintContext} context - context
+ * @param {ESLintNode} node - variable declarator node
+ * @param {String} emberVarName - variable name for Ember
+ */
+function reportEmberShouldNotBeDestructured (context, node, emberVarName) {
+  context.report({
+    fix: function (fixer) {
+      return fixer.remove(node.parent)
+    },
+    message: emberVarName + ' should not be destructured',
+    node: node.parent
+  })
+}
+
+/**
+ * Determine whether or not member expression should be destructured
+ * @param {ESLintNode} node - member expression node
+ *@param {String} emberVarName - variable name for Ember
+ * @param {Boolean} isNever - whether or not "never" option is set
+ * @returns {Boolean} whether or not member expression should be destructured
+ */
+function shouldMemberExpressionBeDestructured (node, emberVarName, isNever) {
+  var isAssignmentOfEmberProperty = node.parent.type === 'AssignmentExpression'
+  var isEmberMemeber = node.object.name === emberVarName
+  var isPropertyNameReserved = reservedNames.indexOf(node.property.name) !== -1
+
+  return (
+    !isNever &&
+    isEmberMemeber &&
+    !isAssignmentOfEmberProperty &&
+    !isPropertyNameReserved
+  )
+}
+
 module.exports = {
   create: function (context) {
     var emberDestructureVariableDeclarator = null
@@ -31,27 +95,31 @@ module.exports = {
        * @param {ESLintNode} node - member expression node
        */
       MemberExpression: function (node) {
-        if (
-          !isNever &&
-          node.object.name === emberVarName &&
-          node.parent.type !== 'AssignmentExpression'
-        ) {
-          if (reservedNames.indexOf(node.property.name) !== -1) {
-            return
-          }
-
-          if (propertiesToDestructure.indexOf(node.property.name) === -1) {
-            propertiesToDestructure.push(node.property.name)
-          }
-
-          context.report({
-            fix: function (fixer) {
-              return fixer.replaceText(node, node.property.name)
-            },
-            message: emberVarName + '.' + node.property.name + ' should be destructured',
-            node: node
-          })
+        if (!shouldMemberExpressionBeDestructured(node, emberVarName, isNever)) {
+          return
         }
+
+        var alreadyDestructuredOrPendingDestructuring = [].concat(propertiesToDestructure)
+
+        if (emberDestructureVariableDeclarator) {
+          alreadyDestructuredOrPendingDestructuring = alreadyDestructuredOrPendingDestructuring
+            .concat(
+              emberDestructureVariableDeclarator.id.properties
+                .map(function (property) {
+                  return property.key.name
+                })
+            )
+        }
+
+        var propertyStillNeedsDestructured = (
+          alreadyDestructuredOrPendingDestructuring.indexOf(node.property.name) === -1
+        )
+
+        if (propertyStillNeedsDestructured) {
+          propertiesToDestructure.push(node.property.name)
+        }
+
+        reportEmberPropertyShouldBeDestructured(context, node, emberVarName, emberDestructureVariableDeclarator)
       },
 
       /**
@@ -113,18 +181,19 @@ module.exports = {
        * @param {ESLintNode} node - variable declarator node
        */
       VariableDeclarator: function (node) {
-        if (node.id.type === 'ObjectPattern' && node.init.name === emberVarName) {
-          emberDestructureVariableDeclarator = node
+        var isDestructuringOfEmber = (
+          node.id.type === 'ObjectPattern' && node.init.name === emberVarName
+        )
 
-          if (isNever) {
-            context.report({
-              fix: function (fixer) {
-                return fixer.remove(node.parent)
-              },
-              message: emberVarName + ' should not be destructured',
-              node: node.parent
-            })
-          }
+        if (!isDestructuringOfEmber) {
+          return
+        }
+
+        emberDestructureVariableDeclarator = node
+
+        if (isNever) {
+          reportEmberShouldNotBeDestructured(context, node, emberVarName)
+          return
         }
       }
     }
