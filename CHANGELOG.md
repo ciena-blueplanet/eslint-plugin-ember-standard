@@ -1,3 +1,8 @@
+# 0.0.19
+
+* **Fixed** `destructure` rule to not destructure `Ember.Object` and `Ember.String`.
+
+
 # 0.0.18
 
 * **Fixed** `prop-types` rule to allow argument in property methods to be a variable reference.
