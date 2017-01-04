@@ -1,3 +1,8 @@
+# 0.0.20
+
+* **Fixed** bug with fix functionality of `destructure` rule where a property could end up in the variable declarator twice.
+
+
 # 0.0.19
 
 * **Fixed** `destructure` rule to not destructure `Ember.Object` and `Ember.String`.
