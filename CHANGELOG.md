@@ -1,3 +1,8 @@
+# 0.0.21
+
+* **Fixed** `no-set-in-computed-property` rule to use consistent `context.report()` API used in other rules.
+
+
 # 0.0.20
 
 * **Fixed** bug with fix functionality of `destructure` rule where a property could end up in the variable declarator twice.
