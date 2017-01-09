@@ -87,7 +87,10 @@ module.exports = {
           currentComputedProperty &&
           isSetCall(node, setVarName, emberVarName)
         ) {
-          context.report(node, 'Do not call this.set() or Ember.set() in a computed property')
+          context.report({
+            message: 'Do not call this.set() or Ember.set() in a computed property',
+            node: node
+          })
         }
       },
 

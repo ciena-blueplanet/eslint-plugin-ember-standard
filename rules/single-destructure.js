@@ -54,6 +54,7 @@ module.exports = {
           fix: function (fixer) {
             return fixer.insertTextAfter(lastProperty, ', ' + textToInsert)
           },
+          message: '',
           node: node
         })
       },
