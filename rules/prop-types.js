@@ -98,6 +98,7 @@ var propertyValidators = {
   arrayOf: functionWithOneArgValidator,
   bool: basicPropertyValidator,
   element: basicPropertyValidator,
+  EmberComponent: basicPropertyValidator,
   EmberObject: basicPropertyValidator,
   func: basicPropertyValidator,
   instanceOf: functionWithOneArgValidator,
