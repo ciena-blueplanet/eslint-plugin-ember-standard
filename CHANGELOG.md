@@ -1,3 +1,8 @@
+# 0.0.22 (2017-03-23)
+
+* **Added** EmberComponent as a valid prop type
+
+
 # 0.0.21
 
 * **Fixed** `no-set-in-computed-property` rule to use consistent `context.report()` API used in other rules.
