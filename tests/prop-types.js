@@ -637,6 +637,15 @@ ruleTester.run('prop-types', rule, {
     },
     {
       code: 'import PropTypeMixin, {PropTypes} from "ember-prop-types"\n' +
+      'export default Ember.Component.extend(PropTypeMixin, {\n' +
+      '  propTypes: {\n' +
+      '    foo: PropTypes.EmberComponent\n' +
+      '  }\n' +
+      '})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import PropTypeMixin, {PropTypes} from "ember-prop-types"\n' +
             'export default Ember.Component.extend(PropTypeMixin, {\n' +
             '  propTypes: {\n' +
             '    foo: PropTypes.EmberObject\n' +
