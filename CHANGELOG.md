@@ -1,3 +1,7 @@
+# 0.0.23 (2017-06-24)
+* **Fixed** build
+
+
 # 0.0.22 (2017-03-23)
 
 * **Added** EmberComponent as a valid prop type
