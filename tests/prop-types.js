@@ -94,6 +94,23 @@ ruleTester.run('prop-types', rule, {
       code: 'import PropTypeMixin, {PropTypes} from "ember-prop-types"\n' +
             'export default Component.extend(PropTypeMixin, {\n' +
             '  propTypes: {\n' +
+            '    foo: PropTypes.date()\n' +
+            '  }\n' +
+            '})',
+      errors: [
+        {
+          column: 20,
+          line: 4,
+          message: 'date should not be a call expression',
+          type: 'Identifier'
+        }
+      ],
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import PropTypeMixin, {PropTypes} from "ember-prop-types"\n' +
+            'export default Component.extend(PropTypeMixin, {\n' +
+            '  propTypes: {\n' +
             '    foo: PropTypes.element()\n' +
             '  }\n' +
             '})',
@@ -622,6 +639,15 @@ ruleTester.run('prop-types', rule, {
             'export default Ember.Component.extend(PropTypeMixin, {\n' +
             '  propTypes: {\n' +
             '    foo: PropTypes.bool\n' +
+            '  }\n' +
+            '})',
+      parser: 'babel-eslint'
+    },
+    {
+      code: 'import PropTypeMixin, {PropTypes} from "ember-prop-types"\n' +
+            'export default Ember.Component.extend(PropTypeMixin, {\n' +
+            '  propTypes: {\n' +
+            '    foo: PropTypes.date\n' +
             '  }\n' +
             '})',
       parser: 'babel-eslint'

@@ -15,23 +15,24 @@ export default Component.extend(PropTypeMixin, {
     bravo: PropTypes.array,
     charlie: PropTypes.arrayOf(PropTypes.string),
     delta: PropTypes.bool,
-    echo: PropTypes.element,
-    foxtrot: PropTypes.EmberObject,
-    golf: PropTypes.func,
-    hotel: PropTypes.instanceOf(HTMLElement),
-    india: PropTypes.null,
-    juliett: PropTypes.number,
-    kilo: PropTypes.object,
-    lima: PropTypes.oneOf(['foo', 'bar']),
-    mike: PropTypes.oneOfType([
+    echo: PropTypes.date,
+    foxtrot: PropTypes.element,
+    golf: PropTypes.EmberObject,
+    hotel: PropTypes.func,
+    india: PropTypes.instanceOf(HTMLElement),
+    juliett: PropTypes.null,
+    kilo: PropTypes.number,
+    lima: PropTypes.object,
+    mike: PropTypes.oneOf(['foo', 'bar']),
+    november: PropTypes.oneOfType([
       PropTypes.null,
       PropTypes.string
     ]),
-    november: PropTypes.shape({
+    oscar: PropTypes.shape({
       foo: PropTypes.string
     }),
-    oscar: PropTypes.string,
-    papa: PropTypes.symbol
+    papa: PropTypes.string,
+    quebec: PropTypes.symbol
   }
 })
 ```
@@ -49,18 +50,19 @@ export default Component.extend(PropTypeMixin, {
     bravo: PropTypes.array(),
     charlie: PropTypes.arrayOf,
     delta: PropTypes.bool(),
-    echo: PropTypes.element(),
-    foxtrot: PropTypes.EmberObject(),
-    golf: PropTypes.func(),
-    hotel: PropTypes.instanceOf,
-    india: PropTypes.null(),
-    juliett: PropTypes.number(),
-    kilo: PropTypes.object(),
-    lima: PropTypes.oneOf
-    mike: PropTypes.oneOfType,
-    november: PropTypes.shape,
-    oscar: PropTypes.string(),
-    papa: PropTypes.symbol()
+    echo: PropTypes.date(),
+    foxtrot: PropTypes.element(),
+    golf: PropTypes.EmberObject(),
+    hotel: PropTypes.func(),
+    india: PropTypes.instanceOf,
+    juliett: PropTypes.null(),
+    kilo: PropTypes.number(),
+    lima: PropTypes.object(),
+    mike: PropTypes.oneOf,
+    november: PropTypes.oneOfType,
+    oscar: PropTypes.shape,
+    papa: PropTypes.string(),
+    quebec: PropTypes.symbol()
   }
 })
 ```
