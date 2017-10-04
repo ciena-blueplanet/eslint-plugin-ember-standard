@@ -41,6 +41,20 @@ export default Component.extend({
 })
 ```
 
+```js
+import Ember from 'ember'
+const {Component} = Ember
+import {computed, readOnly} from 'ember-decorators/object'
+
+export default Component.extend({
+  @readOnly
+  @computed('bar')
+  foo (bar) {
+    return bar + '-baz'
+  }
+})
+```
+
 **Invalid**
 
 ```js
@@ -58,6 +72,19 @@ export default Component.extend({
 import Ember from 'ember'
 const {Component} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
+
+export default Component.extend({
+  @computed('bar')
+  foo (bar) {
+    return bar + '-baz'
+  }
+})
+```
+
+```js
+import Ember from 'ember'
+const {Component} = Ember
+import {computed, readOnly} from 'ember-decorators/object'
 
 export default Component.extend({
   @computed('bar')
@@ -107,6 +134,19 @@ export default Component.extend({
 })
 ```
 
+```js
+import Ember from 'ember'
+const {Component} = Ember
+import {computed, readOnly} from 'ember-decorators/object'
+
+export default Component.extend({
+  @computed('bar')
+  foo (bar) {
+    return bar + '-baz'
+  }
+})
+```
+
 **Invalid**
 
 ```js
@@ -133,3 +173,18 @@ export default Component.extend({
   }
 })
 ```
+
+```js
+import Ember from 'ember'
+const {Component} = Ember
+import {computed, readOnly} from 'ember-decorators/object'
+
+export default Component.extend({
+  @readOnly
+  @computed('bar')
+  foo (bar) {
+    return bar + '-baz'
+  }
+})
+```
+
