@@ -1,3 +1,8 @@
+# 0.1.0 (2017-10-05)
+* **Added** support for `ember-decorators` to the `computed-readonly` rule
+* **Added** tests to validate usage of the `computed-readonly` rule with `ember-decorators`
+* **Added** documentation to show usage of the `computed-readonly` rule with `ember-decorators`
+
 # 0.0.23 (2017-06-24)
 * **Fixed** build
 
