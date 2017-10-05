@@ -161,6 +161,20 @@ module.exports = {
               })
 
             break
+
+          case 'ember-decorators/object':
+            emberComputedDecoratorsImportNode = node
+            node.specifiers
+              .forEach(function (specifier) {
+                if (
+                  specifier.imported &&
+                  specifier.imported.name === 'readOnly'
+                ) {
+                  readOnlyDecoratorVarName = specifier.local.name
+                }
+              })
+
+            break
         }
       },
 
@@ -176,7 +190,7 @@ module.exports = {
 
         var specifierCount = emberComputedDecoratorsImportNode.specifiers.length
 
-        if (specifierCount > 1) {
+        if (specifierCount > 1 || emberComputedDecoratorsImportNode.source.value === 'ember-decorators/object') {
           context.report({
             fix: function (fixer) {
               return fixer.insertTextAfter(
