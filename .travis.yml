@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - '6.9'
+  - '6.9.1'
   - 'stable'
 branches:
   except:
@@ -34,11 +34,10 @@ before_script:
   - sleep 3 # give xvfb some time to start
 script:
   - $(npm root -g)/pr-bumper/.travis/maybe-test.sh
-  - $(npm root -g)/pr-bumper/.travis/maybe-bump-version.sh
+  - .travis/maybe-bump-version.sh
 after_success:
-  - $(npm root -g)/pr-bumper/.travis/maybe-publish-coverage.sh
-before_deploy:
-  - pr-bumper bump
+  - .travis/maybe-publish-coverage.sh
+
 deploy:
   provider: npm
   email: npm.ciena@gmail.com
@@ -46,9 +45,9 @@ deploy:
   api_key:
     secure: e4v9c9ZRO1eGCtkwN5QLLFZGXPIeERnEXVt5koLhMkLbXBkDUnWFRCbpoeT8mqOpVZYjddNLji64LalOht10O8sEdOfN8WpQ7/xnLA9M81f5mmMtxB5Q1lUNRAzQn3qKpV+aaOoUx63EBTOoDVk15SFKSt37VGM14/C0mQFsRJgNRF7ozuNFdj/zQgFS0fSfm6QJ7BaVDZ8OSAfWYV+I6RIk+f0VlFMYV7QvBevmxUfhFRxJfW/Jp1dBif+bCWly//KKyjmrLHzWkE4zBgTLv9MHdICvYT1NbQmLzi2k3VG4BXPWKIfSt22YF75H0Jst1YfJiTS/wLOmPZ3Juu8/RhAyVyVfBwNR4k+vzT8jPZEJ4JvTgt6hmiOvVYl36ZXdl6ud7HgvL4Niq2sG/FWgt/y1SwGo/Tzy1T3kcdBKfHDfxoMVB1vaRorLVhMr8hkTCCnnatsmX+8vM76qekQjmh+KSfYOj0SJzEN+a0AvVgKzZPmf2XWjX7GxkDKWyJQ3/BICoewxwuttYJ1kvtO3ecSsOIac1eYXguAlmf0WhWOxlVOWCVjSaW/0BKlWjggNvK8AHR+0TMqu+BOY4zE+E2tXEYIhOrHB+RGFXQ3jF1LJf5CsHDGs7N4ezq55prn4FU3V+8s2Clh06MlPuAhc9HbrlXHMAZ39g4qYRmTSbOo=
   on:
-    branch: master
-    node: 'stable'
-    tags: false
+    all_branches: true
+    node: '6.9.1'
+    tags: true
 notifications:
   slack:
     secure: LrNkMm33+mkeZy4HJ1w8J8oxg/yHBxIVwsiTIy/uQPiItEVsVeg/gzeNTEHx1mxwwaRZcz82pvrY+aZ7o12yVC34t8kSsAvyEvPwnwNmdY0J7A0R4nKP2h4WEFCMoKOUVnS6SygX5Em5D37FMZQaHem/QDapL8eZF3WOeIaZEcCYpTnRBcZLVaPg97Zl4ZM2hv1FeaqbF3tEsR6zcJZLUEquNKZFMfJgNXWOLm13RU3OOn2WSUnA72zw8F+XXF5Ttrt/lMRwzR4hbN+6rtjsHcqqJLP2EBglHQAqyUBhrGLaZzBHkoNacFrg8kTdcAMciSx0QyrcCzI7zwJQseM9I/xWRTtbreB16tV1jI/x6lek4EpKYkt5smWtaLnQyh5FKJBsvSAbQl+FKbPrYIzk/G/ivI2cl4NtnsVYG/wKZSLmHG+SXEJzgkf5RO6jM+G7pov/JueoUWbh5hx9zFQEXlbWREZZk5FJfVzS4pQYj6SPez7/SCBEB1aRnyfAhwX5usuwU6CvJV3mAYluYF3NM0KUnS/F7d/VezmgO9Dyg71awDG6wEOiZ+kFVwwjOSI43qkDm3c9Ezz7mB8B/3tACdQU/3hssju8gEvbA+YsYHQPxpbqY4thr2UTEzjQ+mbug+0A4DlaQ/6Z+bRHOfLpXFTue+UEwUaiMqjkVsEg03Q=
