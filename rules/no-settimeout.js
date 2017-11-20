@@ -15,7 +15,7 @@ module.exports = {
         }
 
         var methodCall = (runVarName || emberVarName + '.run') + '.later'
-        var argsPlusCloseParen = this.getSourceCode().getText().slice(node.callee.end + 1, node.end)
+        var argsPlusCloseParen = context.getSourceCode().getText().slice(node.callee.end + 1, node.end)
 
         context.report({
           fix: function (fixer) {
