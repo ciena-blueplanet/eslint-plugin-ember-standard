@@ -1,3 +1,6 @@
+# 1.0.1 (2017-11-21)
+* **Updated** engine node version to `>= 6.0.0`
+
 # 1.0.0 (2017-11-21)
 * **Updated** into separate dependencies and devDependencies
 * **Updated** to version 4 of `eslint`  
