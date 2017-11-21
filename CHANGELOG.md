@@ -1,3 +1,18 @@
+# 1.0.0 (2017-11-21)
+* **Updated** into separate dependencies and devDependencies
+* **Updated** to version 4 of `eslint`  
+* **Updated** to version 4 of `mocha`
+* **Updated** to version 8 of `babel-eslint`
+* **Updated** to version 10 of `eslint-config-standard`
+* **Added** now needed `eslint-plugin-import` dependency
+* **Added** now needed `eslint-plugin-node` dependency
+* **Updated** to version 3 of `eslint-plugin-standard`
+* **Updated** to version 4 of `remark-cli`
+* **Updated** to version 6 of `remark-lint`
+* **Updated** version of node to `>= 6.9.0`
+* **Removed** running of node versions 4 and 5 from travis CI
+* **Updated** to use `pr-bumper` version 2
+
 # 0.1.0 (2017-10-05)
 * **Added** support for `ember-decorators` to the `computed-readonly` rule
 * **Added** tests to validate usage of the `computed-readonly` rule with `ember-decorators`
