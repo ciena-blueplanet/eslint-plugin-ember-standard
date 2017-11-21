@@ -93,10 +93,11 @@ module.exports = {
        * Determine if Ember property is being referenced in an un-destructured manner
        * @example `export default const Ember.Component.extend({})`
        * @param {ESLintNode} node - member expression node
+       * @returns {undefined}
        */
       MemberExpression: function (node) {
         if (!shouldMemberExpressionBeDestructured(node, emberVarName, isNever)) {
-          return
+          return undefined
         }
 
         var alreadyDestructuredOrPendingDestructuring = [].concat(propertiesToDestructure)
@@ -125,10 +126,11 @@ module.exports = {
       /**
        * Destructure Ember properties being used
        * @param {ESLintNode} node - program node
+       * @returns {undefined}
        */
       'Program:exit': function (node) {
         if (propertiesToDestructure.length === 0) {
-          return
+          return undefined
         }
 
         var message = 'The following need destructured: ' + propertiesToDestructure.sort().join(', ')
@@ -179,6 +181,7 @@ module.exports = {
       /**
        * Determine if Ember is being destructured when in shouldn't be
        * @param {ESLintNode} node - variable declarator node
+       * @returns {undefined}
        */
       VariableDeclarator: function (node) {
         var isDestructuringOfEmber = (
@@ -186,14 +189,14 @@ module.exports = {
         )
 
         if (!isDestructuringOfEmber) {
-          return
+          return undefined
         }
 
         emberDestructureVariableDeclarator = node
 
         if (isNever) {
           reportEmberShouldNotBeDestructured(context, node, emberVarName)
-          return
+          return undefined
         }
       }
     }
