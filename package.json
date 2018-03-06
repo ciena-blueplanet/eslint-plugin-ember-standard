@@ -32,7 +32,7 @@
   "name": "eslint-plugin-ember-standard",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ciena-blueplanet/eslint-plugin-ember-standard"
+    "url": "https://github.com/ciena-blueplanet/eslint-plugin-ember-standard.git"
   },
   "scripts": {
     "lint": "npm run lint-md && npm run lint-js",
