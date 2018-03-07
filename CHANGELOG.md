@@ -1,3 +1,10 @@
+# 1.0.3 (2018-03-07)
+* **Updated** pull request
+* **Added** issue templates
+* **Updated** to use version 3 of `pr-bumper`
+* **Updated** CI to run node version `8.1.2`
+* **Added** `package-lock.json` file
+
 # 1.0.2 (2017-12-18)
 * **Updated** babel-eslint to ^8.0.3 (verified)
 * **Updated** pin eslint-plugin-promise @ 3.6.0 (verified)
