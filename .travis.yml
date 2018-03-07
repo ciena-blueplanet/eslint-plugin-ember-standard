@@ -35,7 +35,7 @@ script:
 after_success:
   - $(npm root -g)/pr-bumper/.travis/maybe-publish-coverage.sh
 after_deploy:
-- $(npm root -g)/ciena-devops/scripts/slack/incoming-webhooks/send-message.sh
+  - $(npm root -g)/ciena-devops/scripts/slack/incoming-webhooks/send-message.sh
 
 deploy:
   provider: npm
