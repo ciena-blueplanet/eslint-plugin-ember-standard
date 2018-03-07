@@ -116,6 +116,7 @@ module.exports = {
     var loggerVarName = null
 
     return {
+      /* eslint-disable complexity */
       /**
        * Determine if console is being used when it shouldn't be (when Ember is
        * imported)
@@ -140,6 +141,7 @@ module.exports = {
           reportUseConsoleInsteadOfDestructuredLogger(context, node, loggerVarName)
         }
       },
+      /* eslint-enable complexity */
 
       /**
        * Determine if Ember has been explicitly imported

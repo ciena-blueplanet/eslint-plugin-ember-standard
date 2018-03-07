@@ -46,6 +46,7 @@ function isDecoratorComputedProperty (node, computedDecoratorVarName) {
     })
 }
 
+/* eslint-disable complexity */
 /**
  * Determine if current call expression is a call to Ember.set() or this.set()
  * @param {ESLintNode} node - call expression node
@@ -67,6 +68,7 @@ function isSetCall (node, setVarName, emberVarName) {
   // Unstructured call (i.e. `set()`)
   return node.callee.name === setVarName
 }
+/* eslint-enable complexity */
 
 module.exports = {
   create: function (context) {
