@@ -54,6 +54,7 @@ function reportUnwantedReadOnly (context, node) {
   })
 }
 
+/* eslint-disable complexity */
 /**
  * Process computed call expression
  * @param {ESLintContext} context - context
@@ -79,6 +80,7 @@ function processComputed (context, node, isNever, computedVarName) {
     }
   }
 }
+/* eslint-enable complexity */
 
 /**
  * Process computed decorator call expression
