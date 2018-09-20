@@ -1,3 +1,8 @@
+# 1.0.5 (2018-09-20)
+
+* Fix to be compatible with @ember-decorators/object
+
+
 # 1.0.4 (2018-07-20)
 
 * **Fixed** Travis API key.
