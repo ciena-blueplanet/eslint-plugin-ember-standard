@@ -164,6 +164,7 @@ module.exports = {
 
             break
 
+          case '@ember-decorators/object':
           case 'ember-decorators/object':
             emberComputedDecoratorsImportNode = node
             node.specifiers
