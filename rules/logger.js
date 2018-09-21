@@ -13,10 +13,10 @@ var VALID_LOGGER_METHODS = [
  * @param {ESLintNode} node - call expression node
  * @returns {Boolean} whether or not console call
  */
-function isConsolePropertyCall (node) {
+function isEmberLoggerCall (node) {
   return (
     node.callee.object &&
-    node.callee.object.name === 'console' &&
+    node.callee.object.name === 'Logger' &&
     VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
   )
 }
@@ -98,13 +98,11 @@ function reportUseConsoleInsteadOfStructuredLogger (context, node, emberVarName,
  * @param {String} loggerVarName - variable name for Ember.Logger
  */
 function reportUseLoggerInsteadOfConsole (context, node, emberVarName, loggerVarName) {
-  var replacement = loggerVarName || emberVarName + '.Logger'
-
   context.report({
     fix: function (fixer) {
-      return fixer.replaceText(node.callee.object, replacement)
+      return fixer.replaceText(node.callee.object, 'console')
     },
-    message: 'Use ' + replacement + ' instead of console',
+    message: 'Use console instead of Ember.Logger',
     node: node.callee.object
   })
 }
@@ -118,14 +116,14 @@ module.exports = {
     return {
       /* eslint-disable complexity */
       /**
-       * Determine if console is being used when it shouldn't be (when Ember is
+       * Determine if Ember.Logger is being used when it shouldn't be (when Ember is
        * imported)
-       * @example `import Ember from 'ember'; console.info('Test')`
+       * @example `import Ember from 'ember'; Ember.Logger.info('Test')`
        * @param {ESLintNode} node - call expression node
        */
       CallExpression: function (node) {
         if (!isNever) {
-          if (emberVarName && isConsolePropertyCall(node)) {
+          if (emberVarName && isEmberLoggerCall(node)) {
             reportUseLoggerInsteadOfConsole(context, node, emberVarName, loggerVarName)
           }
 
@@ -177,7 +175,7 @@ module.exports = {
     deprecated: false,
     docs: {
       category: 'Best Practices',
-      description: 'Enforce usage of Ember.Logger over console',
+      description: 'Enforce usage of console over Ember.Logger',
       recommended: true
     },
     fixable: 'code',
