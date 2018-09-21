@@ -6,20 +6,30 @@ var VALID_LOGGER_METHODS = [
   'log',
   'warn'
 ]
-
+/* eslint-disable complexity */
 /**
  * Determine if call expression is a console call that can be converted to a
  * Ember.Logger call
  * @param {ESLintNode} node - call expression node
+ * @param {String} emberVarName - variable name for Ember
+ * @param {String} loggerVarName - variable name for Ember.Logger
  * @returns {Boolean} whether or not console call
  */
-function isEmberLoggerCall (node) {
+function isEmberLoggerCall (node, emberVarName, loggerVarName) {
+  const EmberLoggerVarName = loggerVarName || 'Logger'
   return (
     node.callee.object &&
-    node.callee.object.name === 'Logger' &&
-    VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
+    // Check for Logger.<log>
+    (node.callee.object.name === EmberLoggerVarName ||
+
+      // Check for Ember.Logger.<log>
+      (node.callee.object.property && node.callee.object.property.name === EmberLoggerVarName &&
+        node.callee.object.object && node.callee.object.object.name === emberVarName)
+
+    ) && VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
   )
 }
+/* eslint-enable complexity */
 
 /**
  * Determine if call expression is a destructured Ember.Logger call that can be
@@ -123,7 +133,7 @@ module.exports = {
        */
       CallExpression: function (node) {
         if (!isNever) {
-          if (emberVarName && isEmberLoggerCall(node)) {
+          if (emberVarName && isEmberLoggerCall(node, emberVarName, loggerVarName)) {
             reportUseLoggerInsteadOfConsole(context, node, emberVarName, loggerVarName)
           }
 
