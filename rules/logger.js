@@ -6,20 +6,30 @@ var VALID_LOGGER_METHODS = [
   'log',
   'warn'
 ]
-
+/* eslint-disable complexity */
 /**
  * Determine if call expression is a console call that can be converted to a
  * Ember.Logger call
  * @param {ESLintNode} node - call expression node
+ * @param {String} emberVarName - variable name for Ember
+ * @param {String} loggerVarName - variable name for Ember.Logger
  * @returns {Boolean} whether or not console call
  */
-function isConsolePropertyCall (node) {
+function isEmberLoggerCall (node, emberVarName, loggerVarName) {
+  const EmberLoggerVarName = loggerVarName || 'Logger'
   return (
     node.callee.object &&
-    node.callee.object.name === 'console' &&
-    VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
+    // Check for Logger.<log>
+    (node.callee.object.name === EmberLoggerVarName ||
+
+      // Check for Ember.Logger.<log>
+      (node.callee.object.property && node.callee.object.property.name === EmberLoggerVarName &&
+        node.callee.object.object && node.callee.object.object.name === emberVarName)
+
+    ) && VALID_LOGGER_METHODS.indexOf(node.callee.property.name) !== -1
   )
 }
+/* eslint-enable complexity */
 
 /**
  * Determine if call expression is a destructured Ember.Logger call that can be
@@ -98,13 +108,11 @@ function reportUseConsoleInsteadOfStructuredLogger (context, node, emberVarName,
  * @param {String} loggerVarName - variable name for Ember.Logger
  */
 function reportUseLoggerInsteadOfConsole (context, node, emberVarName, loggerVarName) {
-  var replacement = loggerVarName || emberVarName + '.Logger'
-
   context.report({
     fix: function (fixer) {
-      return fixer.replaceText(node.callee.object, replacement)
+      return fixer.replaceText(node.callee.object, 'console')
     },
-    message: 'Use ' + replacement + ' instead of console',
+    message: 'Use console instead of Ember.Logger',
     node: node.callee.object
   })
 }
@@ -118,14 +126,14 @@ module.exports = {
     return {
       /* eslint-disable complexity */
       /**
-       * Determine if console is being used when it shouldn't be (when Ember is
+       * Determine if Ember.Logger is being used when it shouldn't be (when Ember is
        * imported)
-       * @example `import Ember from 'ember'; console.info('Test')`
+       * @example `import Ember from 'ember'; Ember.Logger.info('Test')`
        * @param {ESLintNode} node - call expression node
        */
       CallExpression: function (node) {
         if (!isNever) {
-          if (emberVarName && isConsolePropertyCall(node)) {
+          if (emberVarName && isEmberLoggerCall(node, emberVarName, loggerVarName)) {
             reportUseLoggerInsteadOfConsole(context, node, emberVarName, loggerVarName)
           }
 
@@ -177,7 +185,7 @@ module.exports = {
     deprecated: false,
     docs: {
       category: 'Best Practices',
-      description: 'Enforce usage of Ember.Logger over console',
+      description: 'Enforce usage of console over Ember.Logger',
       recommended: true
     },
     fixable: 'code',
