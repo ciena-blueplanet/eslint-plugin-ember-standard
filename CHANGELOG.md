@@ -1,3 +1,9 @@
+# 2.0.0 (2018-09-24)
+
+* Use console instead of Logger. As Ember has moved to deprecate the Logger
+
+
+
 # 1.0.5 (2018-09-20)
 
 * Fix to be compatible with @ember-decorators/object
