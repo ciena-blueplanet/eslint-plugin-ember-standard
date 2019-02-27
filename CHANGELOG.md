@@ -1,3 +1,8 @@
+# 2.1.0 (2019-02-27)
+
+* Add support for computed readonly to for `ember-macro-helpers/computed`
+
+
 # 2.0.0 (2018-09-24)
 
 * Use console instead of Logger. As Ember has moved to deprecate the Logger
