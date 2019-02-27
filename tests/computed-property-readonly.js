@@ -28,6 +28,30 @@ ruleTester.run('computed-property-readonly', rule, {
       parser: 'babel-eslint'
     },
     {
+      code: 'import computed from "ember-macro-helpers/computed"\n' +
+            'export default Ember.Component.extend({\n' +
+            '  foo: computed("bar", bar, function (){\n' +
+            '    return "baz"\n' +
+            '  })\n' +
+            '})',
+      errors: [
+        {
+          column: 3,
+          line: 3,
+          message: 'Computed property should be readOnly',
+          type: 'Property'
+        }
+      ],
+      options: ['always'],
+      output: 'import computed from "ember-macro-helpers/computed"\n' +
+              'export default Ember.Component.extend({\n' +
+              '  foo: computed("bar", bar, function (){\n' +
+              '    return "baz"\n' +
+              '  }).readOnly()\n' +
+              '})',
+      parser: 'babel-eslint'
+    },
+    {
       code: 'import Ember from "ember"\n' +
             'export default Ember.Component.extend({\n' +
             '  foo: Ember.computed("bar", function () {\n' +
