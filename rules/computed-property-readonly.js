@@ -143,27 +143,16 @@ module.exports = {
        * @example `import Ember from 'ember'` would yield "Ember"
        * @example `import Foo from 'ember'` would yield "Foo"
        * @param {ESLintNode} node - import declaration node
-       */
+       *//* eslint-disable complexity */
       ImportDeclaration: function (node) {
         switch (node.source.value) {
           case 'ember':
             emberVarName = node.specifiers[0].local.name
             break
-
-          case 'ember-computed-decorators':
-            emberComputedDecoratorsImportNode = node
-            node.specifiers
-              .forEach(function (specifier) {
-                if (
-                  specifier.imported &&
-                  specifier.imported.name === 'readOnly'
-                ) {
-                  readOnlyDecoratorVarName = specifier.local.name
-                }
-              })
-
+          case 'ember-macro-helpers/computed':
+            computedVarName = node.specifiers[0].local.name
             break
-
+          case 'ember-computed-decorators':
           case '@ember-decorators/object':
           case 'ember-decorators/object':
             emberComputedDecoratorsImportNode = node
@@ -180,12 +169,13 @@ module.exports = {
             break
         }
       },
+      /* eslint-enable complexity */
 
       /**
-       * Make sure readOnly is imported from ember-computed-decorators if it is
-       * being used
-       * @param {ESLintNode} node - program node
-       */
+             * Make sure readOnly is imported from ember-computed-decorators if it is
+             * being used
+             * @param {ESLintNode} node - program node
+             */
       'Program:exit': function (node) {
         if (!importReadOnlyDecoratorVar) {
           return
